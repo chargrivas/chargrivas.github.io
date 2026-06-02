@@ -84,3 +84,17 @@ ol, ul {
 li {
   margin-bottom: 0.6rem;
 }
+
+
+
+
+.talk-tag.invited {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
