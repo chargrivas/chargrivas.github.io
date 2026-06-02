@@ -86,21 +86,22 @@ li {
 }
 
 
-
-
-.talk-tag {
-  margin-left: 0.35rem;
-  font-size: 0.72rem;
-  color: #666;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
+.talk-mark {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: 0.38rem;
+  border-radius: 50%;
+  vertical-align: middle;
 }
 
-
+.talk-mark.invited {
+  background: #14b8a6;
+  box-shadow: 0 0 0 1px rgba(20, 184, 166, 0.15);
+}
 
 .legend {
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  font-size: 0.88rem;
   color: #666;
 }
-
