@@ -95,3 +95,12 @@ li {
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
+
+
+
+.legend {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
