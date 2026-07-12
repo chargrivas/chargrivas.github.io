@@ -3,7 +3,7 @@ title: "Testing for Time-Varying Exogeneity: A Bootstrap Approach"
 collection: publications
 category: workingpapers
 permalink: /publication/time-varying-exogeneity
-excerpt: 'In preparation. A bootstrap approach to testing for time-varying exogeneity.'
+excerpt: 'In preparation.'
 date: 2026-01-02
 venue: 'Working Paper (in preparation)'
 paperurl: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4595905'
