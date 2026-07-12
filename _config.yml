@@ -28,7 +28,7 @@ author:
   pronouns         : # example: "she/her"  
   bio              : "Assistant Professor of Mathematical Economics at Aalborg University. Research on resampling methods, high-dimensional model selection, and financial risk modeling."
   location         : "Aalborg, Denmark"
-  employer         : "Department of Mathematical Sciences,<br>Aalborg University"
+  employer         : "<span style='font-size:0.85em;'>Department of Mathematical Sciences, Aalborg University</span>"
   uri              : # URL
   email            : "charisios [dot] grivas [at] gmail [dot] com" 
 
