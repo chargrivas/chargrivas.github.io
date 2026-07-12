@@ -3,7 +3,7 @@ title: "Automated Bandwidth Selection for Inference in Linear Models with Time-V
 collection: publications
 category: manuscripts
 permalink: /publication/2025-bandwidth-selection
-excerpt: 'With Z. Psaradakis. Automated bandwidth selection for inference in linear models with time-varying coefficients.'
+excerpt: 'With Z. Psaradakis.'
 date: 2025-01-01
 venue: 'Journal of Time Series Analysis'
 paperurl: 'https://onlinelibrary.wiley.com/doi/10.1111/jtsa.12842'
