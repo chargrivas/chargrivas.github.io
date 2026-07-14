@@ -5,7 +5,6 @@ category: workingpapers
 permalink: /publication/time-varying-exogeneity
 excerpt: 'In preparation.'
 date: 2026-01-02
-venue: 'Working Paper (in preparation)'
 paperurl: 'https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4595905'
 ---
 
