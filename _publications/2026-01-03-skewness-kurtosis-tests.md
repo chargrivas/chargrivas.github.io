@@ -5,7 +5,6 @@ category: workingpapers
 permalink: /publication/skewness-kurtosis-tests
 excerpt: 'With Z. Psaradakis and M. Vávra.'
 date: 2026-01-03
-venue: 
 paperurl: 
 ---
 
