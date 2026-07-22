@@ -1,9 +1,10 @@
 ---
-title: "Bootstrap-Assisted Tests for Skewness, Kurtosis, and Normality Under Unspecified Short or Long Memory"
+title: "Automated Bandwidth Selection for Inference in Linear Models with Time-Varying Coefficients"
 collection: publications
-category: workingpapers
-permalink: /publication/skewness-kurtosis-tests
-excerpt: 'Revise and resubmit at *Journal of Business & Economic Statistics*.<br>With Z. Psaradakis and M. Vávra.<br>[[Slides]](https://www.dropbox.com/scl/fi/c76erkkrko5r1pmkas5en/SKNtest.pdf?rlkey=7927zxldnqcw8tu925b1e5a2z&st=res2n0ra&dl=0)'
-date: 2026-01-03
-paperurl: 
+category: manuscripts
+permalink: /publication/2025-bandwidth-selection
+excerpt: 'With Z. Psaradakis.<br><br>[[Slides]](https://www.dropbox.com/scl/fi/0t6p3lrntl1wi2h4z131g/BandwidthChoice.pdf?rlkey=se18cqbt3v92axuagxxmw6akx&st=kptv18qd&dl=0)'
+date: 2025-01-01
+venue: 'Journal of Time Series Analysis'
+paperurl: 'https://onlinelibrary.wiley.com/doi/10.1111/jtsa.12842'
 ---
