@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>(function(){var dark=false,hideCode=false;try{var qs=new URLSearchParams(window.location.search);var q=qs.get('theme');if(q==='dark'){dark=true;}else if(q==='light'){dark=false;}else{var v=localStorage.getItem('mtb-global-dark-mode')||localStorage.getItem('mtb-theme');dark=(v==='dark')||document.cookie.indexOf('mtb-theme=dark')!==-1;}var c=qs.get('code');if(c==='hide'){hideCode=true;}else if(c==='show'){hideCode=false;}else{var cv=localStorage.getItem('mtb-global-code-visible-v2');hideCode=(cv==='hide');}}catch(e){}if(dark){document.documentElement.classList.add('theme-dark');}if(hideCode){document.documentElement.classList.add('codes-hidden');}})();</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Empirical example - MultipleTestingBoosting</title>
+  <style>:root{
+  --ink:#071225;--muted:#4b5f7c;--bg:#f7f9fd;--paper:#fff;--line:#dbe4f0;
+  --blue:#1d4ed8;--blue2:#0ea5e9;--soft:#eef5ff;--code:#07101f;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f8fbff 0%,#f4f7fb 48%,#fff 100%);font-family:var(--sans);color:var(--ink);line-height:1.68}a{color:inherit}.page{width:min(1080px,calc(100% - 46px));margin:0 auto}.topbar{position:sticky;top:0;z-index:20;background:rgba(248,251,255,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.topbar-inner{height:66px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;gap:12px;align-items:center;text-decoration:none;font-weight:850;letter-spacing:-.02em}.brand-mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:white;display:grid;place-items:center;font-weight:900}.nav{display:flex;gap:6px;overflow-x:auto;white-space:nowrap}.nav a{padding:8px 11px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:750;color:#263448}.nav a:hover,.nav a.active{background:var(--ink);color:white}.hero{padding:84px 0 62px}.hero h1,.page-title h1{font-size:clamp(43px,6.4vw,76px);line-height:.98;letter-spacing:-.07em;margin:0 0 22px}.hero p,.page-title p{font-size:19px;color:var(--muted);max-width:820px;margin:0}.hero strong,.lead strong{color:#344862}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.button{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:999px;min-height:44px;padding:11px 17px;background:var(--ink);color:#fff;font-weight:850}.button.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}.page-title{padding:64px 0 34px;border-bottom:1px solid var(--line);margin-bottom:42px}.eyebrow{display:inline-block;margin-bottom:16px;font-size:12px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}.section{margin:58px 0}.section.compact{margin:38px 0}.section h2{font-size:clamp(28px,3.8vw,46px);line-height:1.06;letter-spacing:-.055em;margin:0 0 14px}.section h3{font-size:21px;line-height:1.2;letter-spacing:-.025em;margin:0 0 8px}.lead{font-size:18px;color:var(--muted);max-width:820px}.muted{color:var(--muted)}.two-col{display:grid;grid-template-columns:minmax(250px,340px) 1fr;gap:52px;align-items:start}.split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}.thin-rule{height:1px;background:var(--line);margin:32px 0}.rule-top{border-top:1px solid var(--line);padding-top:30px}.idea{border-top:1px solid var(--line);padding-top:30px}.idea h2{max-width:420px}.idea-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:22px}.idea-step{border-top:2px solid var(--line);padding-top:16px}.idea-step b{display:block;font-size:20px;letter-spacing:-.03em;margin-bottom:6px}.workflow{counter-reset:step;display:grid;gap:0;margin-top:10px}.step{counter-increment:step;display:grid;grid-template-columns:52px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}.step:before{content:counter(step);width:34px;height:34px;border-radius:50%;background:var(--ink);color:white;display:grid;place-items:center;font-weight:900;font-size:14px}.step p{margin:4px 0 0;color:var(--muted)}.term-table{width:100%;border-collapse:collapse;margin-top:10px}.term-table th,.term-table td{padding:14px 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.term-table th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#66758b}.term-table td:first-child{width:150px;font-family:var(--mono);font-weight:850;color:#174edc}.inline-code,p code,li code,td code{font-family:var(--mono);font-size:.94em;color:#174edc;background:#edf4ff;border-radius:7px;padding:2px 5px}.codeblock{margin:18px 0}.code-title{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#111827;color:white;padding:12px 15px;border-radius:16px 16px 0 0;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:850}.copy-btn{border:0;border-radius:999px;background:rgba(255,255,255,.13);color:white;padding:6px 10px;cursor:pointer;font-weight:800}.copy-btn:hover{background:rgba(255,255,255,.25)}pre{margin:0;overflow:auto;background:var(--code);color:#e8eefc;border-radius:0 0 16px 16px;padding:20px 22px}code{font-family:var(--mono);font-size:13.5px;line-height:1.62}.out{color:#9ef0c8}.comment{color:#8b99ad}.clean-table,.results-table{width:100%;border-collapse:collapse;margin:18px 0 0}.clean-table th,.clean-table td,.results-table th,.results-table td{text-align:left;padding:13px 0;border-bottom:1px solid var(--line);vertical-align:top}.clean-table th,.results-table th{font-size:12px;text-transform:uppercase;letter-spacing:.10em;color:#66758b}.results-table td:nth-child(3),.results-table td:nth-child(4),.results-table td:nth-child(5){white-space:nowrap}.results-table strong{font-weight:900}.summary-line{display:flex;flex-wrap:wrap;gap:26px;margin-top:18px}.summary-line div{border-top:2px solid var(--line);padding-top:10px;min-width:130px}.summary-line span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:850;color:#66758b}.summary-line b{display:block;font-size:24px;letter-spacing:-.04em}.note{border-left:3px solid var(--blue);padding:4px 0 4px 18px;color:var(--muted);margin:22px 0}.note strong{color:var(--ink)}.soft-panel{background:#f9fbff;border:1px solid var(--line);border-radius:18px;padding:22px}.tabs{margin-top:18px}.tab-input{position:absolute;opacity:0;pointer-events:none}.tab-labels{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}.tab-labels label{cursor:pointer;border:1px solid var(--line);background:white;border-radius:999px;padding:10px 14px;font-weight:850;color:#263448}.tab-panel{display:none}.tab-panel .split{margin-top:0}.tab-panel .section:first-child{margin-top:0}.model-grid{display:grid;gap:12px;margin:16px 0}.model-card{border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:20px;background:linear-gradient(135deg,#ffffff 0%,#f7fbff 100%);padding:18px 20px;box-shadow:0 12px 32px rgba(15,23,42,.06)}.model-card.accent{border-left-color:var(--blue2)}.model-label{margin:0 0 7px;font-size:12px;text-transform:uppercase;letter-spacing:.11em;font-weight:900;color:#66758b}.model-equation{font-size:clamp(21px,2.6vw,30px);line-height:1.35;font-family:Georgia,"Times New Roman",serif;color:#071225}.model-note{margin:10px 0 0;color:var(--muted);font-size:14px}.model-equation sub{font-size:.62em}.model-equation .operator{color:var(--blue);font-weight:700}.cases-equation{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.cases{display:inline-grid;gap:4px;border-left:2px solid var(--line);padding-left:12px;font-family:var(--sans);font-size:16px;line-height:1.3}.cases span{display:flex;gap:10px;align-items:baseline}.cases strong{font-family:Georgia,"Times New Roman",serif;font-size:24px;color:var(--ink)}.cases em{font-style:normal;color:var(--muted)}#tab-linear:checked~.tab-labels label[for=tab-linear],#tab-logit:checked~.tab-labels label[for=tab-logit]{background:var(--ink);color:white;border-color:var(--ink)}#tab-linear:checked~.tab-panels .tab-linear,#tab-logit:checked~.tab-panels .tab-logit{display:block}.author-block{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0}.author-name{font-size:36px;font-weight:900;letter-spacing:-.04em;margin:0 0 8px}.footer{margin:78px auto 34px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}@media(max-width:860px){.two-col,.split,.idea-steps{grid-template-columns:1fr}.nav{max-width:70vw}.hero{padding-top:48px}.page-title{padding-top:48px}.hero h1,.page-title h1{font-size:48px}.term-table td:first-child{width:auto}.results-table{font-size:14px}}@media(max-width:560px){.page{width:min(100% - 28px,1080px)}.results-table{display:block;overflow-x:auto}}.math-inline{font-family:Georgia,"Times New Roman",serif;font-size:1.08em;color:var(--ink)}.model-equation mjx-container{margin:0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}.model-note mjx-container,.term-table mjx-container{margin:0!important}.theme-toggle{position:fixed;left:18px;top:84px;right:auto;bottom:auto;z-index:60;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.88);backdrop-filter:blur(12px);font-size:13px;font-weight:850;color:var(--ink);box-shadow:0 12px 28px rgba(15,23,42,.14);cursor:pointer}.theme-toggle input{accent-color:var(--blue)}body.theme-dark{--ink:#e5eefc;--muted:#b7c7dc;--bg:#07111f;--paper:#0f172a;--line:#26364f;--blue:#60a5fa;--blue2:#22d3ee;--soft:#10243f;--code:#020617;background:linear-gradient(180deg,#07111f 0%,#0b1323 55%,#0f172a 100%)}body.theme-dark .topbar{background:rgba(7,17,31,.92)}body.theme-dark .button.secondary,body.theme-dark .tab-labels label{background:#111827;color:var(--ink)}body.theme-dark .soft-panel,body.theme-dark .model-card{background:linear-gradient(135deg,#0f172a 0%,#101c2e 100%)}body.theme-dark .model-equation{color:var(--ink)}body.theme-dark .theme-toggle{background:rgba(15,23,42,.88)}body.theme-dark p code,body.theme-dark li code,body.theme-dark td code,body.theme-dark .inline-code{background:#132846;color:#93c5fd}body.theme-dark .nav a:hover,body.theme-dark .nav a.active{background:#e5eefc;color:#071225}body.theme-dark select{background:#111827!important;color:var(--ink)}body.theme-dark .code-title{background:#030712}body.theme-dark pre{background:#020617}
+/* final visual tuning */.tab-panel .example-layout{grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);gap:42px;align-items:start}.tab-panel .final-layout{grid-template-columns:minmax(240px,.72fr) minmax(0,1.28fr);gap:42px;align-items:center}.tab-panel .final-layout .codeblock{margin-top:0}.model-card{padding:22px 24px;overflow:hidden}.model-label{margin-bottom:12px}.model-equation{font-size:clamp(20px,1.55vw,27px);line-height:1.35}.model-equation mjx-container[jax="CHTML"][display="true"]{display:block!important;margin:.2rem auto .15rem!important;max-width:100%;overflow-x:auto;overflow-y:hidden}.model-note{margin-top:14px}.logit-link-note{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.model-note .math-inline{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:var(--soft);white-space:nowrap}.model-note .math-inline mjx-container{font-size:105%!important}.tab-panel h2{max-width:620px}@media(max-width:980px){.tab-panel .example-layout,.tab-panel .final-layout{grid-template-columns:1fr}.tab-panel .final-layout .codeblock{margin-top:18px}.model-equation{font-size:clamp(19px,4.2vw,26px)}}body.theme-dark{--ink:#f3f4f6;--muted:#c7c9cc;--bg:#121212;--paper:#181818;--line:#373737;--blue:#d0d6df;--blue2:#aeb6c2;--soft:#242424;--code:#0a0d12;background:#121212!important;color:var(--ink)}body.theme-dark .topbar{background:rgba(18,18,18,.94);border-bottom-color:#333}body.theme-dark .brand-mark{background:#262626;border:1px solid #464646;color:#f3f4f6}body.theme-dark .nav a{color:#d9dcdf}body.theme-dark .nav a:hover,body.theme-dark .nav a.active{background:#f3f4f6;color:#111}body.theme-dark .button{background:#f3f4f6;color:#111}body.theme-dark .button.secondary,body.theme-dark .tab-labels label{background:#181818;color:#f3f4f6;border-color:#3a3a3a}body.theme-dark .soft-panel,body.theme-dark .model-card{background:#181818!important;border-color:#373737;box-shadow:none}body.theme-dark .model-card{border-left-color:#686868}body.theme-dark .model-card.accent{border-left-color:#8a8a8a}body.theme-dark .model-equation{color:#f3f4f6}body.theme-dark .model-note .math-inline{background:#222;border-color:#424242}body.theme-dark .code-title{background:#171717;border:1px solid #333;border-bottom:0}body.theme-dark pre{background:#090b10;color:#eef2f7;border:1px solid #333;border-top:0}body.theme-dark .theme-toggle{background:rgba(24,24,24,.92);border-color:#3a3a3a;box-shadow:0 12px 28px rgba(0,0,0,.35)}body.theme-dark p code,body.theme-dark li code,body.theme-dark td code,body.theme-dark .inline-code{background:#242424;color:#f2f2f2}body.theme-dark select{background:#181818!important;color:#f3f4f6;border-color:#3a3a3a!important}body.theme-dark .clean-table th,body.theme-dark .results-table th{color:#b6b6b6}body.theme-dark .term-table td:first-child{color:#f3f4f6}body.theme-dark .footer,body.theme-dark .page-title,body.theme-dark .rule-top{border-color:#333}body.theme-dark .eyebrow{color:#d0d6df}
+/* neutral dark mode + logit equation tightening */.variable-chip{display:inline-flex;align-items:center;border:1px solid var(--line);background:#edf4ff;border-radius:999px;padding:5px 9px;margin:0 6px 8px 0;color:var(--ink)}.variable-chip code{background:transparent!important;color:inherit!important;padding:0}.model-equation.logit-main{margin-bottom:6px}.model-equation.logit-index{font-size:clamp(17px,1.18vw,22px);padding-top:2px}.model-equation.logit-main mjx-container,.model-equation.logit-index mjx-container{display:block!important;text-align:left!important;margin:.1rem 0!important}.model-card.accent .model-note{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}.model-card.accent{max-width:100%}@media(min-width:981px){.tab-panel .example-layout{grid-template-columns:minmax(0,1fr) minmax(350px,.86fr);gap:34px}.tab-panel .example-layout>div{min-width:0}.model-equation{font-size:clamp(18px,1.35vw,24px)}}html body.theme-dark{--ink:#f2f2f2!important;--muted:#c8c8c8!important;--bg:#111!important;--paper:#171717!important;--line:#343434!important;--blue:#b8b8b8!important;--blue2:#9a9a9a!important;--soft:#242424!important;--code:#070707!important;background:#111!important;color:#f2f2f2!important}body.theme-dark .page,body.theme-dark main{background:transparent!important}body.theme-dark .topbar{background:rgba(17,17,17,.94)!important;border-bottom-color:#303030!important}body.theme-dark .model-card,body.theme-dark .soft-panel{background:#171717!important;border-color:#343434!important;box-shadow:none!important}body.theme-dark .model-card{border-left-color:#555!important}body.theme-dark .model-card.accent{border-left-color:#747474!important}body.theme-dark .code-title{background:#171717!important;border:1px solid #2f2f2f!important;border-bottom:0!important;color:#f2f2f2!important}body.theme-dark pre{background:#070707!important;border:1px solid #2f2f2f!important;border-top:0!important;color:#f2f2f2!important}body.theme-dark .variable-chip{background:#252525!important;border-color:#4a4a4a!important;color:#f2f2f2!important}body.theme-dark .variable-chip code{color:#f2f2f2!important;background:transparent!important}body.theme-dark .inline-code,body.theme-dark p code,body.theme-dark li code,body.theme-dark td code{background:#252525!important;color:#f2f2f2!important}body.theme-dark .clean-table th,body.theme-dark .results-table th{color:#bdbdbd!important}body.theme-dark .clean-table td,body.theme-dark .results-table td{border-bottom-color:#333!important}body.theme-dark .tab-labels label,body.theme-dark .button.secondary{background:#171717!important;color:#f2f2f2!important;border-color:#343434!important}body.theme-dark #tab-linear:checked~.tab-labels label[for=tab-linear],body.theme-dark #tab-logit:checked~.tab-labels label[for=tab-logit]{background:#f2f2f2!important;color:#111!important;border-color:#f2f2f2!important}body.theme-dark .theme-toggle{background:rgba(23,23,23,.94)!important;border-color:#343434!important;color:#f2f2f2!important}body.theme-dark .copy-btn{background:#303030!important;color:#f2f2f2!important}body.theme-dark select{background:#171717!important;color:#f2f2f2!important;border-color:#343434!important}@media(max-width:560px){.theme-toggle{top:74px;left:12px;padding:7px 10px;font-size:12px}}
+/* keep dark mode stable when tabs are switched */html.theme-dark body{background:#111!important;color:#f2f2f2!important}html.theme-dark body .page,html.theme-dark body main{background:transparent!important}html.theme-dark body .model-card,html.theme-dark body .soft-panel{background:#171717!important;border-color:#343434!important;box-shadow:none!important}html.theme-dark body .variable-chip{background:#252525!important;border-color:#4a4a4a!important;color:#f2f2f2!important}html.theme-dark body .inline-code,html.theme-dark body p code,html.theme-dark body li code,html.theme-dark body td code{background:#252525!important;color:#f2f2f2!important}html.theme-dark body .code-title{background:#171717!important;border:1px solid #2f2f2f!important;border-bottom:0!important;color:#f2f2f2!important}html.theme-dark body pre{background:#070707!important;border:1px solid #2f2f2f!important;border-top:0!important;color:#f2f2f2!important}html.theme-dark body .tab-labels label{background:#171717!important;color:#f2f2f2!important;border-color:#343434!important}html.theme-dark body #tab-linear:checked~.tab-labels label[for=tab-linear],html.theme-dark body #tab-logit:checked~.tab-labels label[for=tab-logit]{background:#f2f2f2!important;color:#111!important;border-color:#f2f2f2!important}html.theme-dark body .theme-toggle{background:rgba(23,23,23,.94)!important;border-color:#343434!important;color:#f2f2f2!important}
+
+/* cross-page global dark mode */html.theme-dark body{--ink:#f2f2f2!important;--muted:#c8c8c8!important;--bg:#111!important;--paper:#171717!important;--line:#343434!important;--blue:#b8b8b8!important;--blue2:#9a9a9a!important;--soft:#242424!important;--code:#070707!important;background:#111!important;color:#f2f2f2!important}html.theme-dark .topbar{background:rgba(17,17,17,.96)!important;border-bottom-color:#303030!important}html.theme-dark .brand,html.theme-dark .nav a{color:#f2f2f2!important}html.theme-dark .brand-mark{background:#262626!important;border:1px solid #464646!important;color:#f2f2f2!important}html.theme-dark .nav a:hover,html.theme-dark .nav a.active{background:#f2f2f2!important;color:#111!important}html.theme-dark .page-title,html.theme-dark .footer,html.theme-dark .rule-top,html.theme-dark .thin-rule{border-color:#333!important}html.theme-dark .model-card,html.theme-dark .soft-panel{background:#171717!important;border-color:#343434!important;box-shadow:none!important}html.theme-dark .model-equation{color:#f2f2f2!important}html.theme-dark .model-card{border-left-color:#555!important}html.theme-dark .model-card.accent{border-left-color:#747474!important}html.theme-dark .code-title{background:#171717!important;border-color:#2f2f2f!important;color:#f2f2f2!important}html.theme-dark pre{background:#070707!important;border-color:#2f2f2f!important;color:#f2f2f2!important}html.theme-dark .variable-chip{background:#252525!important;border-color:#4a4a4a!important;color:#f2f2f2!important}html.theme-dark .variable-chip code{background:transparent!important;color:#f2f2f2!important}html.theme-dark .inline-code,html.theme-dark p code,html.theme-dark li code,html.theme-dark td code{background:#252525!important;color:#f2f2f2!important}html.theme-dark .tab-labels label,html.theme-dark .button.secondary{background:#171717!important;color:#f2f2f2!important;border-color:#343434!important}html.theme-dark #tab-linear:checked~.tab-labels label[for=tab-linear],html.theme-dark #tab-logit:checked~.tab-labels label[for=tab-logit]{background:#f2f2f2!important;color:#111!important;border-color:#f2f2f2!important}html.theme-dark .theme-toggle{background:rgba(23,23,23,.94)!important;border-color:#343434!important;color:#f2f2f2!important}html.theme-dark .copy-btn{background:#303030!important;color:#f2f2f2!important}html.theme-dark select{background:#171717!important;color:#f2f2f2!important;border-color:#343434!important}
+/* place the theme switch inside the top navigation, above the divider */.topbar-inner{justify-content:flex-start!important}.topbar .theme-toggle{position:static!important;left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;z-index:auto!important;box-shadow:none!important;backdrop-filter:none!important;flex:0 0 auto;margin:0 6px 0 0;padding:7px 10px;background:rgba(255,255,255,.72)}.topbar .brand{flex:0 0 auto}.topbar .nav{margin-left:auto}.topbar .theme-toggle input{margin:0}.topbar .theme-toggle span{line-height:1}@media(max-width:760px){.topbar .theme-toggle span{display:none}.topbar .theme-toggle{padding:7px 8px;margin-right:2px}.topbar-inner{gap:10px!important}.brand span:last-child{max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}html.theme-dark .topbar .theme-toggle{background:rgba(23,23,23,.7)!important}.header-controls{display:flex;align-items:center;gap:8px;flex:0 0 auto}.topbar .header-controls .theme-toggle{margin:0!important}html.codes-hidden .codeblock{display:none!important}.code-toggle input{accent-color:var(--blue)}@media(max-width:860px){.topbar .code-toggle span{display:none}}
+
+/* compact full-width header controls: prevents nav scrollbar on desktop */.topbar-inner.page{width:min(1500px,calc(100% - 28px))!important;max-width:none!important;margin:0 auto!important}.topbar-inner{gap:14px!important}.header-controls{gap:7px!important}.topbar .theme-toggle{padding:6px 9px!important;font-size:13px!important;white-space:nowrap}.topbar .brand{min-width:0!important}.topbar .brand span:last-child{white-space:nowrap}.topbar .nav{margin-left:auto!important;overflow-x:visible!important;flex:0 1 auto!important}.topbar .nav a{padding:7px 10px!important}@media(max-width:1120px){.topbar .brand span:last-child{display:none}.topbar .nav{overflow-x:auto!important}.topbar .theme-toggle span{display:none}.topbar-inner.page{width:min(100% - 18px,1500px)!important}.topbar .nav a{padding:7px 9px!important}}
+/* empirical extras: selected counts, actual selected equations, delta explainer, workflow sketch */.selected-count{font-weight:850;color:var(--ink)}.actual-model{margin-top:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.55);padding:13px 15px;overflow-x:auto}.actual-model-label{font-size:11px;text-transform:uppercase;letter-spacing:.11em;font-weight:900;color:#66758b;margin-bottom:8px}.actual-equation-line{font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,1.7vw,22px);line-height:1.55;white-space:normal}.actual-term{display:inline-flex;align-items:baseline;gap:4px;white-space:nowrap}.actual-term code{font-family:var(--mono);font-size:.72em}.actual-plus{padding:0 2px}.delta-explainer{margin-top:16px;border-top:1px solid var(--line);padding-top:13px}.delta-explainer summary{cursor:pointer;font-weight:900;color:var(--ink)}.delta-explainer p{margin:10px 0 0}.delta-formula{margin:10px 0 0;padding:12px 14px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:1.08em}.workflow-sketch{margin:24px 0 6px;display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:10px;align-items:stretch}.workflow-node{border:1px solid var(--line);border-radius:16px;background:#fff;padding:13px 14px;min-height:92px}.workflow-node span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:900;color:#66758b;margin-bottom:6px}.workflow-node strong{display:block;letter-spacing:-.02em}.workflow-node p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.45}@media(max-width:900px){.workflow-sketch{grid-template-columns:1fr}}html.theme-dark .actual-model,html.theme-dark .delta-formula,html.theme-dark .workflow-node{background:#171717!important;border-color:#343434!important}html.theme-dark .actual-model-label,html.theme-dark .workflow-node span{color:#bdbdbd!important}html.theme-dark .selected-count{color:#f2f2f2!important}
+/* selected-equation polish */.workflow-sketch{display:none!important}.actual-model{margin-top:18px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#ffffff 0%,#f8fbff 100%);padding:18px 20px;overflow-x:auto;box-shadow:0 12px 30px rgba(15,23,42,.06)}.actual-model-label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:950;color:#66758b;margin-bottom:10px}.actual-formula{font-family:Georgia,"Times New Roman",serif;color:var(--ink)}.actual-formula mjx-container{margin:.15rem 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%;font-size:112%!important}.actual-formula mjx-container[jax=CHTML][display=true]{text-align:left!important}.actual-formula mjx-container[jax=CHTML] mjx-math{white-space:nowrap}.soft-panel .variable-chip{margin-bottom:9px}html.theme-dark .actual-model{background:#171717!important;border-color:#343434!important;box-shadow:none!important}html.theme-dark .actual-model-label{color:#bdbdbd!important}
+
+/* corrected empirical layout and selected-equation card */
+.empirical-example-grid{display:grid;grid-template-columns:minmax(250px,.72fr) minmax(0,1.28fr);gap:34px;align-items:start}.empirical-example-grid>.full-row{grid-column:1/-1}.selected-results-row{margin-top:18px}.selected-results-row .selected-result-shell{width:100%;margin:0!important}.selected-results-row .selected-vars-card{margin-bottom:18px!important}.selected-results-row .actual-model{width:100%;margin-top:0!important;padding:24px 30px!important;border-radius:24px;background:linear-gradient(135deg,#ffffff 0%,#f8fbff 100%);box-shadow:0 14px 34px rgba(15,23,42,.06);overflow-x:auto}.selected-results-row .actual-formula{font-size:clamp(18px,1.35vw,24px);line-height:1.55}.selected-results-row .actual-formula mjx-container[jax="CHTML"][display="true"]{text-align:left!important;margin:.15rem 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}.selected-results-row .actual-formula mjx-math{max-width:100%}.selected-results-row .actual-model-label{margin-bottom:12px}.selected-results-row .actual-model .mjx-chtml{white-space:normal!important}@media(max-width:980px){.empirical-example-grid{grid-template-columns:1fr}.empirical-example-grid>.full-row{grid-column:1}.selected-results-row .actual-model{padding:20px!important}}
+html.theme-dark .selected-results-row .actual-model{background:#171717!important;border-color:#343434!important;box-shadow:none!important}
+
+.selected-results-row .actual-formula mjx-container[jax="CHTML"] mjx-math{white-space:normal!important}.selected-results-row .actual-formula mjx-container[jax="CHTML"] mjx-mtext{white-space:nowrap!important}
+/* final polish: cleaner selected equation and compact intro model */.model-equation.compact-equation{font-size:clamp(18px,1.9vw,24px)!important;line-height:1.25!important;overflow:visible!important}.model-equation.compact-equation mjx-container[jax=CHTML][display=true]{text-align:left!important;margin:.15rem 0!important}.selected-results-row .actual-model{overflow:hidden!important}.selected-results-row .actual-formula-main{font-size:clamp(18px,1.45vw,25px)!important;line-height:1.35!important}.selected-results-row .actual-formula-main mjx-container[jax=CHTML][display=true]{text-align:left!important;margin:.2rem 0 .6rem!important;overflow-x:auto;overflow-y:hidden;max-width:100%}.selected-set-line{display:flex;align-items:flex-start;gap:10px;margin-top:8px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;line-height:1.55;color:var(--muted)}.selected-set-symbol{flex:0 0 auto;color:var(--ink);font-weight:800}.selected-set-symbol mjx-container{margin:0!important}.selected-set-equals{flex:0 0 auto;color:var(--muted);font-weight:800}.selected-set-vars{font-family:var(--mono);font-size:12.5px;line-height:1.7;overflow-wrap:anywhere;word-break:normal;color:var(--ink)}html.theme-dark .selected-set-line{border-color:#343434!important;color:#c8c8c8!important}html.theme-dark .selected-set-vars,html.theme-dark .selected-set-symbol{color:#f2f2f2!important}
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner page">
+    <label class="theme-toggle" title="Toggle dark mode"><input id="dark-mode-toggle" type="checkbox"><span>Dark mode</span></label>
+    <label class="theme-toggle code-toggle" title="Show or hide all code blocks"><input id="show-code-toggle" type="checkbox"><span>Show code</span></label>
+    <a class="brand" href="index.html"><span class="brand-mark">B</span><span>MultipleTestingBoosting</span></a>
+    <nav class="nav"><a class="" href="index.html">Home</a><a class="" href="method.html">Method</a><a class="" href="simple-example.html">Simple example</a><a class="active" href="pima-example.html">Empirical example</a><a class="" href="implementation.html">How to implement</a><a class="" href="author.html">Author</a></nav>
+  </div>
+</header>
+<main class="page">
+  <section class="page-title">
+    <span class="eyebrow">Empirical example</span>
+    <h1>Using BMT on transformed FRED-MD/PPM data.</h1>
+    <p>This page shows the package workflow on the transformed macroeconomic package data object <code>FREDMDPPM_transformed</code>. The macroeconomic variables are based on the FRED-MD database of McCracken and Ng (2016), maintained through the Federal Reserve Bank of St. Louis.</p>
+  </section>
+  <section class="section split">
+    <div>
+      <h2>Data.</h2>
+      <p class="lead">The example uses a transformed monthly U.S. macroeconomic package data object and turns it into the two objects needed by the package: a response vector <code>y</code> and a candidate regressor matrix <code>x</code>.</p>
+    </div>
+    <div>
+      <table class="clean-table"><tbody>
+        <tr><td>Package data</td><td><code>FREDMDPPM_transformed</code>, loaded with <code>data("FREDMDPPM_transformed", package = "MultipleTestingBoosting")</code>.</td></tr>
+        <tr><td>Data type</td><td>Transformed monthly U.S. macroeconomic time-series data.</td></tr>
+        <tr><td>Responses</td><td><code>PCEPI</code> for the linear model; <code>PPM</code> for the logit model, where <code>PPM = 1[smoothed annual inflation &gt; 2.5%]</code>.</td></tr>
+        <tr><td>Candidates</td><td>All transformed macroeconomic variables except <code>date</code> and <code>PCEPI</code>. Thus <code>PCEPI</code> is not a covariate.</td></tr>
+        <tr><td>Candidate count</td><td>The examples use <strong>101</strong> candidate variables after excluding <code>date</code> and the response <code>PCEPI</code>.</td></tr>
+        <tr><td>Function calls</td><td><code>boosting_glm(..., link = "linear")</code> or <code>boosting_glm(..., link = "logit")</code>.</td></tr>
+        <tr><td>Logit link</td><td><span class="math-inline">\(\Lambda(z)=\dfrac{1}{1+\mathrm{e}^{-z}}\)</span>.</td></tr>
+      </tbody></table>
+    </div>
+  </section>
+  <section class="section split rule-top">
+    <div>
+      <h2>Data source and citation.</h2>
+    </div>
+    <div class="soft-panel">
+      <p><strong>Paper citation:</strong> McCracken, Michael W., and Serena Ng. 2016. <em>FRED-MD: A Monthly Database for Macroeconomic Research</em>. <em>Journal of Business &amp; Economic Statistics</em> 34(4): 574&ndash;589. DOI: <a href="https://doi.org/10.1080/07350015.2015.1086655">10.1080/07350015.2015.1086655</a>.</p>
+      <p><strong>Data source:</strong> Federal Reserve Bank of St. Louis, <em>FRED-MD and FRED-QD</em> databases, <a href="https://www.stlouisfed.org/research/economists/mccracken/fred-databases">St. Louis Fed FRED databases page</a>. Accessed July 13, 2026.</p>
+      <p class="muted">The empirical examples use the transformed data included with the package. For the logit example, monthly PCEPI log changes are summed over 12 months, converted to percent, averaged over a trailing 12-month window, and classified as high inflation when the result exceeds 2.5%.</p>
+    </div>
+  </section>
+  <section class="section split rule-top">
+    <div>
+      <h2>1. Load the package data.</h2>
+      <p class="muted">Load the package and the empirical data object.</p>
+    </div>
+    <div><div class="codeblock"><div class="code-title">Load package data <button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>library(MultipleTestingBoosting)
+
+data("FREDMDPPM_transformed", package = "MultipleTestingBoosting")
+data &lt;- FREDMDPPM_transformed
+
+data$date &lt;- as.character(data$date)</code></pre></div></div>
+  </section>
+  <section class="section rule-top">
+    <div class="two-col">
+      <div>
+        <h2>2. Choose an empirical model.</h2>
+        <p class="lead">Choose a model and a value of <code>delta</code>.</p>
+      </div>
+      <div class="soft-panel">
+        <p style="margin-top:0"><strong>Researcher-selected delta:</strong></p>
+        <label for="delta-control" class="muted" style="display:block;margin-bottom:8px">Choose <code>delta</code>.</label>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <select id="delta-control" style="min-width:170px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;font-weight:850;background:white">
+            <option value="1" selected>delta = 1</option>
+            <option value="2">delta = 2</option>
+            <option value="3">delta = 3</option>
+          </select>
+        </div>
+        <div class="codeblock"><div class="code-title">Delta setting <button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>delta &lt;- <span class="delta-value">1</span>
+if (delta &lt; 1) stop("delta must be greater than or equal to 1.")</code></pre></div>
+        <details class="delta-explainer"><summary>What changes when delta changes?</summary>
+          <div class="delta-formula">\[c_p(n,\delta)=\Phi^{-1}\left(1-\frac{p}{2n^\delta}\right)\]</div>
+          <p class="muted">A larger <code>delta</code> raises the screening cutoff, so the selected model usually becomes more sparse.</p>
+        </details>
+      </div>
+    </div>
+    <div class="tabs">
+      <input class="tab-input" type="radio" id="tab-linear" name="empirical-tabs" checked>
+      <input class="tab-input" type="radio" id="tab-logit" name="empirical-tabs">
+      <div class="tab-labels" role="tablist" aria-label="Empirical examples">
+        <label for="tab-linear" role="tab">Inflation: linear</label>
+        <label for="tab-logit" role="tab">PPM: logit</label>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel tab-linear">
+          <section class="section empirical-example-grid rule-top">
+            <div>
+              <h2>Inflation linear regression.</h2>
+              <p class="muted">BMT first selects the regressors, then the selected linear model is reported as:</p>
+              <div class="model-grid">
+                <div class="model-card">
+                  <p class="model-label">Linear inflation model</p>
+                  <div class="model-equation compact-equation">\[\pi_t = c + \sum_{j \in \mathcal{S}_{\pi}} \beta_j x_{j,t} + u_t\]</div>
+                  <p class="model-note">Here \(\pi_t\) is inflation, measured by <code>PCEPI</code>. BMT chooses the selected set \(\mathcal{S}_{\pi}\) from the candidate variables \(x\).</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3>Preview for the linear example</h3>
+      <div class="soft-panel preview-panel" style="overflow-x:auto;margin-top:14px">
+        <table style="width:100%;border-collapse:collapse;table-layout:auto;">
+          <thead><tr><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">date</th><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">y: PCEPI</th><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">x1: RPI</th><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">x2: W875RX1</th></tr></thead>
+          <tbody>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">2-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.001</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0011</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0009</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">3-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0006</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0019</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0009</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">4-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0036</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0035</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0036</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">5-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.001</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0024</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0024</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">6-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0005</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0008</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">-0.0002</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin:14px 0 0">For the linear example, <strong>PCEPI</strong> is the continuous inflation response <code>y</code>. The other displayed columns illustrate candidate regressors in <code>x</code>.</p>
+      </div>
+              <div class="codeblock"><div class="code-title">Linear BMT selection <button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>target_name &lt;- "PCEPI"
+y &lt;- data[[target_name]]
+candidate_names &lt;- setdiff(names(data), c("date", target_name))
+x_raw &lt;- as.matrix(data[candidate_names])
+storage.mode(x_raw) &lt;- "numeric"
+keep &lt;- is.finite(y) &amp; complete.cases(x_raw)
+y &lt;- y[keep]
+x &lt;- scale(x_raw[keep, , drop = FALSE])
+
+delta &lt;- <span class="delta-value">1</span>  # choose one of: 1, 2, 3
+if (delta &lt; 1) stop("delta must be greater than or equal to 1.")
+
+selected &lt;- boosting_glm(
+  y = y,
+  X = x,
+  link = "linear",
+  pval = 0.05,
+  delta = delta
+)
+
+selected &lt;- as.logical(selected)
+selected_variables &lt;- colnames(x)[selected]
+selected_variables</code></pre></div>
+            </div>
+            <div class="full-row selected-results-row">
+      <div class="delta-result-panel selected-result-shell" data-model="linear" data-delta="1" style="margin-top:20px;display:block">
+        <div class="soft-panel selected-vars-card">
+          <h3 style="margin:0 0 8px">Selected inflation variables, delta = 1</h3>
+          <p class="selected-count" style="margin:0 0 10px">Selected <strong>7</strong> out of <strong>101</strong> candidate variables.</p>
+          <p class="muted" style="margin:0 0 12px">Selected by the linear BMT step.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0">
+        <span class="variable-chip"><code>AWHMAN</code></span>
+        <span class="variable-chip"><code>S&amp;P div yield</code></span>
+        <span class="variable-chip"><code>T5YFFM</code></span>
+        <span class="variable-chip"><code>AAAFFM</code></span>
+        <span class="variable-chip"><code>DDURRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DNDGRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DSERRG3M086SBEA</code></span>
+          </div>
+        </div>
+        <div class="actual-model"><div class="actual-model-label">Selected final equation</div><div class="actual-formula actual-formula-main">\[\pi_t = c + \sum_{j \in \mathcal{S}_{\pi}} \beta_j x_{j,t} + u_t\]</div><div class="selected-set-line"><span class="selected-set-symbol">\(\mathcal{S}_{\pi}\)</span><span class="selected-set-equals">=</span><span class="selected-set-vars">{AWHMAN, S&amp;P div yield, T5YFFM, AAAFFM, DDURRG3M086SBEA, DNDGRG3M086SBEA, DSERRG3M086SBEA}</span></div></div>
+      </div>
+      <div class="delta-result-panel selected-result-shell" data-model="linear" data-delta="2" style="margin-top:20px;display:none">
+        <div class="soft-panel selected-vars-card">
+          <h3 style="margin:0 0 8px">Selected inflation variables, delta = 2</h3>
+          <p class="selected-count" style="margin:0 0 10px">Selected <strong>6</strong> out of <strong>101</strong> candidate variables.</p>
+          <p class="muted" style="margin:0 0 12px">Selected by the linear BMT step.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0">
+        <span class="variable-chip"><code>AWHMAN</code></span>
+        <span class="variable-chip"><code>T5YFFM</code></span>
+        <span class="variable-chip"><code>AAAFFM</code></span>
+        <span class="variable-chip"><code>DDURRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DNDGRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DSERRG3M086SBEA</code></span>
+          </div>
+        </div>
+        <div class="actual-model"><div class="actual-model-label">Selected final equation</div><div class="actual-formula actual-formula-main">\[\pi_t = c + \sum_{j \in \mathcal{S}_{\pi}} \beta_j x_{j,t} + u_t\]</div><div class="selected-set-line"><span class="selected-set-symbol">\(\mathcal{S}_{\pi}\)</span><span class="selected-set-equals">=</span><span class="selected-set-vars">{AWHMAN, T5YFFM, AAAFFM, DDURRG3M086SBEA, DNDGRG3M086SBEA, DSERRG3M086SBEA}</span></div></div>
+      </div>
+      <div class="delta-result-panel selected-result-shell" data-model="linear" data-delta="3" style="margin-top:20px;display:none">
+        <div class="soft-panel selected-vars-card">
+          <h3 style="margin:0 0 8px">Selected inflation variables, delta = 3</h3>
+          <p class="selected-count" style="margin:0 0 10px">Selected <strong>5</strong> out of <strong>101</strong> candidate variables.</p>
+          <p class="muted" style="margin:0 0 12px">Selected by the linear BMT step.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0">
+        <span class="variable-chip"><code>AWHMAN</code></span>
+        <span class="variable-chip"><code>T5YFFM</code></span>
+        <span class="variable-chip"><code>DDURRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DNDGRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DSERRG3M086SBEA</code></span>
+          </div>
+        </div>
+        <div class="actual-model"><div class="actual-model-label">Selected final equation</div><div class="actual-formula actual-formula-main">\[\pi_t = c + \sum_{j \in \mathcal{S}_{\pi}} \beta_j x_{j,t} + u_t\]</div><div class="selected-set-line"><span class="selected-set-symbol">\(\mathcal{S}_{\pi}\)</span><span class="selected-set-equals">=</span><span class="selected-set-vars">{AWHMAN, T5YFFM, DDURRG3M086SBEA, DNDGRG3M086SBEA, DSERRG3M086SBEA}</span></div></div>
+      </div>
+            </div>
+          </section>
+          <section class="section split rule-top">
+            <div>
+              <h2>Estimate the final linear model.</h2>
+              <p class="muted">The final regression uses only the columns selected by BMT.</p>
+            </div>
+            <div><div class="codeblock"><div class="code-title">Final linear model <button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>x_selected &lt;- x[, selected_variables, drop = FALSE]
+
+reg_data &lt;- data.frame(
+  inflation = y,
+  x_selected,
+  check.names = FALSE
+)
+
+inflation_model &lt;- lm(inflation ~ ., data = reg_data)
+
+summary(inflation_model)</code></pre></div></div>
+          </section>
+        </div>
+        <div class="tab-panel tab-logit">
+          <section class="section empirical-example-grid rule-top">
+            <div>
+              <h2>PPM logit regression.</h2>
+              <p class="muted">The PPM example converts inflation into a binary response and then applies BMT with a logit link.</p>
+              <div class="model-grid">
+                <div class="model-card">
+                  <p class="model-label">Binary response</p>
+                  <div class="model-equation">\[PPM_t = \begin{cases} 1, & \bar{\pi}_t^{(12)} > 2.5 \\ 0, & \bar{\pi}_t^{(12)} \le 2.5 \end{cases}\]</div>
+                  <p class="model-note">Here <code>PCEPI</code> is the monthly log-change series. It is converted to annual inflation and then smoothed with a trailing 12-month average, \(\bar{\pi}_t^{(12)}\). The binary response equals one only when this smoothed rate exceeds 2.5%.</p>
+                </div>
+                <div class="model-card accent">
+                  <p class="model-label">Selected final logit model</p>
+                  <div class="model-equation logit-main">\[\Pr(PPM_t = 1 \mid x_t) = \Lambda(\eta_t)\]</div>
+                  <div class="model-equation logit-index">\[\eta_t = c + \beta_1 x_{1,t} + \cdots + \beta_k x_{k,t}\]</div>
+                  <p class="model-note"><span class="math-inline">\(\Lambda(z)=\dfrac{1}{1+\mathrm{e}^{-z}}\)</span>. The selected variables enter the logit index after BMT screening.</p>
+                </div>
+              </div>
+              <p class="muted">The BMT step is the same workflow, but with <code>link = "logit"</code>.</p>
+            </div>
+            <div>
+              <h3>Preview for the logit example</h3>
+      <div class="soft-panel preview-panel" style="overflow-x:auto;margin-top:14px">
+        <table style="width:100%;border-collapse:collapse;table-layout:auto;">
+          <thead><tr><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">date</th><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">y: PPM</th><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">x1: RPI</th><th style="text-align:left;padding:10px 18px 10px 0;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#66758b;white-space:nowrap;">x2: W875RX1</th></tr></thead>
+          <tbody>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">12-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.006</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0055</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">1-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">-0.001</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">-0.0014</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">2-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0042</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0048</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">3-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0069</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0066</td></tr>
+            <tr><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">4-01-19</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0051</td><td style="padding:12px 18px 12px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums;">0.0062</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin:14px 0 0">For the logit example, <strong>PPM</strong> is the binary response. The displayed columns illustrate candidate regressors in <code>x</code>.</p>
+      </div>
+              <div class="codeblock"><div class="code-title">Logit BMT selection <button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>target_name &lt;- "PCEPI"
+candidate_names &lt;- setdiff(names(data), c("date", target_name))
+x_raw &lt;- as.matrix(data[candidate_names])
+storage.mode(x_raw) &lt;- "numeric"
+monthly_pcepi_change &lt;- as.numeric(data[[target_name]])
+annual_inflation &lt;- 100 * as.numeric(stats::filter(monthly_pcepi_change, rep(1, 12), sides = 1))
+smoothed_inflation &lt;- as.numeric(stats::filter(annual_inflation, rep(1 / 12, 12), sides = 1))
+ppm &lt;- as.integer(smoothed_inflation &gt; 2.5)
+keep &lt;- is.finite(ppm) &amp; complete.cases(x_raw)
+ppm &lt;- ppm[keep]
+x &lt;- scale(x_raw[keep, , drop = FALSE])
+
+delta &lt;- <span class="delta-value">1</span>  # choose one of: 1, 2, 3
+if (delta &lt; 1) stop("delta must be greater than or equal to 1.")
+
+selected_ppm &lt;- boosting_glm(
+  y = ppm,
+  X = x,
+  link = "logit",
+  pval = 0.05,
+  delta = delta
+)
+
+selected_ppm &lt;- as.logical(selected_ppm)
+ppm_variables &lt;- colnames(x)[selected_ppm]
+ppm_variables</code></pre></div>
+            </div>
+            <div class="full-row selected-results-row">
+      <div class="delta-result-panel selected-result-shell" data-model="logit" data-delta="1" style="margin-top:20px;display:block">
+        <div class="soft-panel selected-vars-card">
+          <h3 style="margin:0 0 8px">Selected PPM variables, delta = 1</h3>
+          <p class="selected-count" style="margin:0 0 10px">Selected <strong>8</strong> out of <strong>101</strong> candidate variables.</p>
+          <p class="muted" style="margin:0 0 12px">Selected by the logit BMT step.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0">
+        <span class="variable-chip"><code>CES0600000007</code></span>
+        <span class="variable-chip"><code>AWHMAN</code></span>
+        <span class="variable-chip"><code>BUSINVx</code></span>
+        <span class="variable-chip"><code>TB3SMFFM</code></span>
+        <span class="variable-chip"><code>T1YFFM</code></span>
+        <span class="variable-chip"><code>EXCAUSx</code></span>
+        <span class="variable-chip"><code>DSERRG3M086SBEA</code></span>
+        <span class="variable-chip"><code>DTCOLNVHFNM</code></span>
+          </div>
+        </div>
+        <div class="actual-model"><div class="actual-model-label">Selected final logit index</div><div class="actual-formula actual-formula-main">\[\begin{aligned}\Pr(PPM_t = 1 \mid x_t) &= \Lambda(\eta_t), \\ \eta_t &= c + \sum_{j \in \mathcal{S}_{PPM}} \beta_j x_{j,t}\end{aligned}\]</div><div class="selected-set-line"><span class="selected-set-symbol">\(\mathcal{S}_{PPM}\)</span><span class="selected-set-equals">=</span><span class="selected-set-vars">{CES0600000007, AWHMAN, BUSINVx, TB3SMFFM, T1YFFM, EXCAUSx, DSERRG3M086SBEA, DTCOLNVHFNM}</span></div></div>
+      </div>
+      <div class="delta-result-panel selected-result-shell" data-model="logit" data-delta="2" style="margin-top:20px;display:none">
+        <div class="soft-panel selected-vars-card">
+          <h3 style="margin:0 0 8px">Selected PPM variables, delta = 2</h3>
+          <p class="selected-count" style="margin:0 0 10px">Selected <strong>3</strong> out of <strong>101</strong> candidate variables.</p>
+          <p class="muted" style="margin:0 0 12px">Selected by the logit BMT step.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0">
+        <span class="variable-chip"><code>AWHMAN</code></span>
+        <span class="variable-chip"><code>TB3SMFFM</code></span>
+        <span class="variable-chip"><code>DSERRG3M086SBEA</code></span>
+          </div>
+        </div>
+        <div class="actual-model"><div class="actual-model-label">Selected final logit index</div><div class="actual-formula actual-formula-main">\[\begin{aligned}\Pr(PPM_t = 1 \mid x_t) &= \Lambda(\eta_t), \\ \eta_t &= c + \sum_{j \in \mathcal{S}_{PPM}} \beta_j x_{j,t}\end{aligned}\]</div><div class="selected-set-line"><span class="selected-set-symbol">\(\mathcal{S}_{PPM}\)</span><span class="selected-set-equals">=</span><span class="selected-set-vars">{AWHMAN, TB3SMFFM, DSERRG3M086SBEA}</span></div></div>
+      </div>
+      <div class="delta-result-panel selected-result-shell" data-model="logit" data-delta="3" style="margin-top:20px;display:none">
+        <div class="soft-panel selected-vars-card">
+          <h3 style="margin:0 0 8px">Selected PPM variables, delta = 3</h3>
+          <p class="selected-count" style="margin:0 0 10px">Selected <strong>2</strong> out of <strong>101</strong> candidate variables.</p>
+          <p class="muted" style="margin:0 0 12px">Selected by the logit BMT step.</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0">
+        <span class="variable-chip"><code>AWHMAN</code></span>
+        <span class="variable-chip"><code>DSERRG3M086SBEA</code></span>
+          </div>
+        </div>
+        <div class="actual-model"><div class="actual-model-label">Selected final logit index</div><div class="actual-formula actual-formula-main">\[\begin{aligned}\Pr(PPM_t = 1 \mid x_t) &= \Lambda(\eta_t), \\ \eta_t &= c + \sum_{j \in \mathcal{S}_{PPM}} \beta_j x_{j,t}\end{aligned}\]</div><div class="selected-set-line"><span class="selected-set-symbol">\(\mathcal{S}_{PPM}\)</span><span class="selected-set-equals">=</span><span class="selected-set-vars">{AWHMAN, DSERRG3M086SBEA}</span></div></div>
+      </div>
+            </div>
+          </section>
+          <section class="section split rule-top">
+            <div>
+              <h2>Estimate the final PPM logit.</h2>
+              <p class="muted">The final logit uses only the variables selected by the logit BMT step.</p>
+            </div>
+            <div><div class="codeblock"><div class="code-title">Final logit model <button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code>ppm_data &lt;- data.frame(
+  ppm = ppm,
+  x[, ppm_variables, drop = FALSE],
+  check.names = FALSE
+)
+
+ppm_logit &lt;- glm(ppm ~ ., data = ppm_data, family = binomial("logit"))
+
+summary(ppm_logit)</code></pre></div></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section split rule-top">
+    <div>
+      <h2>How to read the output.</h2>
+      <p class="lead">The key output is <code>selected_variables</code>, which lists only the variables selected by BMT.</p>
+    </div>
+    <div>
+      <table class="clean-table"><tbody>
+        <tr><td><code>selected</code></td><td>The raw TRUE/FALSE output from <code>boosting_glm()</code>; it is used to index the columns of <code>x</code>.</td></tr>
+        <tr><td><code>selected_variables</code></td><td>The names of the selected macroeconomic variables.</td></tr>
+        <tr><td><code>delta</code></td><td>The researcher-chosen threshold exponent. The examples use <code>delta &lt;- 1</code> and pass it through the common <code>delta</code> argument, which applies it at both stages.</td></tr>
+        <tr><td><code>summary(inflation_model)</code></td><td>A final linear inflation regression using only the variables selected by BMT.</td></tr>
+        <tr><td><code>summary(ppm_logit)</code></td><td>A final PPM logit model using the logit-selected variables.</td></tr>
+      </tbody></table>
+      <div class="note"><strong>Interpretation:</strong> In the inflation example, <code>PCEPI</code> is the response variable and the selected columns are used in the final <code>lm()</code>. In the PPM example, <code>ppm</code> is binary and the selected columns are used in the final logit <code>glm()</code>.</div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer page">MultipleTestingBoosting &middot; variable selection procedures in R</footer>
+<script>(function(){const mtbThemeKey='mtb-global-dark-mode';const mtbCodeKey='mtb-global-code-visible-v2';let mtbDarkMode=false;let mtbShowCode=true;function copyCode(button){const block=button.closest('.codeblock');const pre=block?block.querySelector('pre'):null;const text=pre?pre.innerText:'';navigator.clipboard.writeText(text).then(function(){const old=button.innerText;button.innerText='Copied';setTimeout(function(){button.innerText=old;},1200);});}window.copyCode=copyCode;function queryTheme(){try{const q=new URLSearchParams(window.location.search).get('theme');if(q==='dark')return true;if(q==='light')return false;}catch(e){}return null;}function queryCode(){try{const q=new URLSearchParams(window.location.search).get('code');if(q==='hide')return false;if(q==='show')return true;}catch(e){}return null;}function savedTheme(){const q=queryTheme();if(q!==null)return q;try{const v=localStorage.getItem(mtbThemeKey)||localStorage.getItem('mtb-theme');if(v==='dark')return true;if(v==='light')return false;}catch(e){}try{return document.cookie.indexOf('mtb-theme=dark')!==-1;}catch(e){return false;}}function savedCode(){const q=queryCode();if(q!==null)return q;try{const v=localStorage.getItem(mtbCodeKey);if(v==='hide')return false;if(v==='show')return true;}catch(e){}return true;}function saveTheme(isDark){try{localStorage.setItem(mtbThemeKey,isDark?'dark':'light');localStorage.setItem('mtb-theme',isDark?'dark':'light');}catch(e){}try{document.cookie='mtb-theme='+(isDark?'dark':'light')+'; path=/; max-age=31536000; SameSite=Lax';}catch(e){}}function saveCode(showCode){try{localStorage.setItem(mtbCodeKey,showCode?'show':'hide');}catch(e){}}function updateNavLinks(){document.querySelectorAll('a[href]').forEach(function(a){const raw=a.getAttribute('href');if(!raw||raw.charAt(0)==='#'||raw.indexOf('mailto:')===0||raw.indexOf('http://')===0||raw.indexOf('https://')===0)return;try{const url=new URL(raw,window.location.href);url.searchParams.set('theme',mtbDarkMode?'dark':'light');url.searchParams.set('code',mtbShowCode?'show':'hide');let out=url.pathname.split('/').pop()+url.search+url.hash;if(raw.indexOf('/')!==-1&&raw.indexOf('://')===-1){out=raw.split('?')[0].split('#')[0]+url.search+url.hash;}a.setAttribute('href',out);}catch(e){}});}function setTheme(isDark,save){mtbDarkMode=!!isDark;document.documentElement.classList.toggle('theme-dark',mtbDarkMode);if(document.body){document.body.classList.toggle('theme-dark',mtbDarkMode);}document.querySelectorAll('#dark-mode-toggle').forEach(function(toggle){toggle.checked=mtbDarkMode;});if(save!==false)saveTheme(mtbDarkMode);updateNavLinks();}function setCodeVisible(showCode,save){mtbShowCode=!!showCode;document.documentElement.classList.toggle('codes-hidden',!mtbShowCode);if(document.body){document.body.classList.toggle('codes-hidden',!mtbShowCode);}document.querySelectorAll('#show-code-toggle').forEach(function(toggle){toggle.checked=mtbShowCode;});if(save!==false)saveCode(mtbShowCode);updateNavLinks();}function applyDeltaSelection(){const control=document.getElementById('delta-control');const value=control?control.value:'1';document.querySelectorAll('.delta-value').forEach(function(el){el.textContent=value;});document.querySelectorAll('.delta-result-panel').forEach(function(panel){panel.style.display=(panel.getAttribute('data-delta')===value)?'block':'none';});}document.addEventListener('DOMContentLoaded',function(){setTheme(savedTheme(),true);setCodeVisible(savedCode(),true);const control=document.getElementById('delta-control');if(control){control.addEventListener('change',applyDeltaSelection);applyDeltaSelection();}document.addEventListener('change',function(event){if(event.target&&event.target.id==='dark-mode-toggle'){setTheme(event.target.checked,true);}if(event.target&&event.target.id==='show-code-toggle'){setCodeVisible(event.target.checked,true);}});});window.addEventListener('pageshow',function(){setTheme(savedTheme(),false);setCodeVisible(savedCode(),false);});window.addEventListener('storage',function(event){if(event.key===mtbThemeKey||event.key==='mtb-theme'){setTheme(event.newValue==='dark',false);}if(event.key===mtbCodeKey){setCodeVisible(event.newValue!=='hide',false);}});})();</script>
+</body>
+</html>
