@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R implementation of sequential variable selection for linear, logit, and probit specifications, with always-in controls and optional HAC inference.">
-  <title>Overview | MultipleTestingBoosting</title>
+  <meta name="description" content="A fixed-seed logit design in which the true support is known before the selection procedure is run.">
+  <title>Simulation | MultipleTestingBoosting</title>
   <style>
 :root {
   --navy: #102a43;
@@ -165,7 +165,7 @@ html.codes-hidden .code-block { display: none; }
   <header class="site-header">
     <div class="header-inner">
       <a class="site-name" href="index.html">MultipleTestingBoosting<span>v0.0.0.9000</span></a>
-      <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
+      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a class="active" aria-current="page" href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
       <div class="header-tools" aria-label="Display settings">
         <button id="code-toggle" type="button">Hide code</button>
       </div>
@@ -174,62 +174,85 @@ html.codes-hidden .code-block { display: none; }
   </header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 03 / 06</span>Reproducible example</div>
       <div>
-        <h1>Multiple Testing Boosting for high-dimensional model selection</h1>
-        <p class="deck">An R implementation of sequential variable selection for linear, logit, and probit specifications, with always-in controls and optional HAC inference.</p>
+        <h1>Binary-response simulation with known support</h1>
+        <p class="deck">A fixed-seed logit design in which the true support is known before the selection procedure is run.</p>
       </div>
     </header>
 <section class="research-section">
-  <div class="section-label">Abstract</div>
+  <div class="section-label">Design</div>
   <div class="section-body">
-    <div class="abstract">
-      <p>MultipleTestingBoosting implements a sequential model-selection procedure for high-dimensional linear and binary-response regressions. Candidate variables are ranked through regression-based test statistics and admitted subject to a multiple-testing critical value.</p>
-    </div>
+    <h2>Known sparse support</h2>
+    <p>The simulation contains 250 observations and 20 independent standard-normal candidate variables. The binary response is generated from a logit index containing only <code>x1</code> and <code>x3</code>.</p>
+    <div class="equation">\[\Pr(y_i=1\mid X_i)=\Lambda\!\left(1.5x_{1i}-x_{3i}\right)\]</div>
     <table class="research-meta"><tbody>
-      <tr><th>Primary function</th><td><code>boosting_glm()</code></td></tr>
-      <tr><th>Models</th><td>Linear regression, logit, and probit</td></tr>
-      <tr><th>Always-in variables</th><td>Supported through <code>Xcond</code></td></tr>
-      <tr><th>Time-series inference</th><td>Optional Newey-West HAC standard errors for linear, logit, and probit models</td></tr>
-      <tr><th>Output</th><td>A logical vector identifying the selected columns of <code>X</code></td></tr>
+      <tr><th>Observations</th><td>250</td></tr>
+      <tr><th>Candidates</th><td>20</td></tr>
+      <tr><th>True support</th><td><code>x1</code>, <code>x3</code></td></tr>
+      <tr><th>Link</th><td>Logit</td></tr>
+      <tr><th>Seed</th><td>123</td></tr>
     </tbody></table>
-    <div class="inline-links">
-      <a href="method.html">Read the method</a>
-      <a href="simple-example.html">Run the simulation</a>
-      <a href="pima-example.html">Study the empirical application</a>
-    </div>
   </div>
 </section>
 <section class="research-section">
-  <div class="section-label">Research basis</div>
+  <div class="section-label">Reproduction</div>
   <div class="section-body">
-    <h2>Boosting with multiple testing</h2>
-    <p class="lead">The implementation follows the model-selection frameworks developed for high-dimensional linear and binary-response regression.</p>
-    <p class="citation">Kapetanios, George, Vasilis Sarafidis, and Alexia Ventouri. 2026. <em>Model Selection in High-Dimensional Linear Regression using Boosting with Multiple Testing</em>. <a href="https://arxiv.org/abs/2602.19705">arXiv:2602.19705</a>.</p>
-    <p class="citation">Grivas, Charisios, George Kapetanios, Zacharias Psaradakis, Vasilis Sarafidis, Marian Vavra, and Alexia Ventouri. 2026. <em>Nonlinear Boosting with Multiple Testing in High-Dimensional Generalised Linear Models with Binary Responses</em>. <a href="https://arxiv.org/abs/2607.22440">arXiv:2607.22440</a>.</p>
-    <p>The package provides a common interface for linear, logit, and probit specifications. The local documentation separates the methodological description, reproducible simulations, and empirical use of transformed FRED-MD data.</p>
-  </div>
-</section>
-<section class="research-section">
-  <div class="section-label">Minimal use</div>
-  <div class="section-body">
-    <h2>One function, explicit inputs</h2>
-    <p>Supply a numeric response and a candidate-regressor matrix. Optional conditioning variables remain in every auxiliary regression and are not part of the returned selection vector.</p>
+    <h2>Selection code and result</h2>
 <div class="code-block">
-  <div class="code-heading"><span>R</span><button type="button" data-copy>Copy</button></div>
+  <div class="code-heading"><span>R simulation</span><button type="button" data-copy>Copy</button></div>
   <pre><code>library(MultipleTestingBoosting)
+
+set.seed(123)
+n_obs &lt;- 250
+n_candidates &lt;- 20
+
+X &lt;- matrix(
+  stats::rnorm(n_obs * n_candidates),
+  nrow = n_obs,
+  ncol = n_candidates
+)
+colnames(X) &lt;- paste0(&quot;x&quot;, seq_len(n_candidates))
+
+eta &lt;- 1.5 * X[, &quot;x1&quot;] - X[, &quot;x3&quot;]
+probability &lt;- stats::plogis(eta)
+y &lt;- stats::rbinom(n_obs, size = 1, prob = probability)
 
 selected &lt;- boosting_glm(
   y = y,
   X = X,
-  Xcond = NULL,
+  link = &quot;logit&quot;,
   pval = 0.05,
-  delta1 = 1,
-  link = &quot;linear&quot;,
-  HAC = FALSE
+  delta1 = 1
 )
 
 colnames(X)[selected]</code></pre>
+  <div class="code-output-label">Output</div>
+  <pre class="code-output"><code>[1] &quot;x1&quot; &quot;x3&quot;</code></pre>
+</div>
+    <p>The computed website result matches the data-generating support for this fixed seed: <code>x1</code> and <code>x3</code> are selected.</p>
+  </div>
+</section>
+<section class="research-section">
+  <div class="section-label">Post-selection model</div>
+  <div class="section-body">
+    <h2>Estimate on the selected columns</h2>
+    <p>The selection vector can be used directly to subset the candidate matrix before estimating the final logit model.</p>
+<div class="code-block">
+  <div class="code-heading"><span>R</span><button type="button" data-copy>Copy</button></div>
+  <pre><code>simulation_data &lt;- data.frame(
+  y = y,
+  X[, selected, drop = FALSE],
+  check.names = FALSE
+)
+
+final_model &lt;- stats::glm(
+  y ~ .,
+  data = simulation_data,
+  family = stats::binomial(&quot;logit&quot;)
+)
+
+coef(summary(final_model))</code></pre>
 </div>
   </div>
 </section>

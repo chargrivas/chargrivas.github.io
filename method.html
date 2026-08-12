@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R implementation of sequential variable selection for linear, logit, and probit specifications, with always-in controls and optional HAC inference.">
-  <title>Overview | MultipleTestingBoosting</title>
+  <meta name="description" content="A compact description of the implemented algorithm and the arguments controlling model specification and inference.">
+  <title>Method | MultipleTestingBoosting</title>
   <style>
 :root {
   --navy: #102a43;
@@ -165,7 +165,7 @@ html.codes-hidden .code-block { display: none; }
   <header class="site-header">
     <div class="header-inner">
       <a class="site-name" href="index.html">MultipleTestingBoosting<span>v0.0.0.9000</span></a>
-      <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
+      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a class="active" aria-current="page" href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
       <div class="header-tools" aria-label="Display settings">
         <button id="code-toggle" type="button">Hide code</button>
       </div>
@@ -174,63 +174,67 @@ html.codes-hidden .code-block { display: none; }
   </header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 02 / 06</span>Method and reference</div>
       <div>
-        <h1>Multiple Testing Boosting for high-dimensional model selection</h1>
-        <p class="deck">An R implementation of sequential variable selection for linear, logit, and probit specifications, with always-in controls and optional HAC inference.</p>
+        <h1>Selection sequence, critical value, and function interface</h1>
+        <p class="deck">A compact description of the implemented algorithm and the arguments controlling model specification and inference.</p>
       </div>
     </header>
 <section class="research-section">
-  <div class="section-label">Abstract</div>
+  <div class="section-label">Algorithm</div>
   <div class="section-body">
-    <div class="abstract">
-      <p>MultipleTestingBoosting implements a sequential model-selection procedure for high-dimensional linear and binary-response regressions. Candidate variables are ranked through regression-based test statistics and admitted subject to a multiple-testing critical value.</p>
-    </div>
-    <table class="research-meta"><tbody>
-      <tr><th>Primary function</th><td><code>boosting_glm()</code></td></tr>
-      <tr><th>Models</th><td>Linear regression, logit, and probit</td></tr>
-      <tr><th>Always-in variables</th><td>Supported through <code>Xcond</code></td></tr>
-      <tr><th>Time-series inference</th><td>Optional Newey-West HAC standard errors for linear, logit, and probit models</td></tr>
-      <tr><th>Output</th><td>A logical vector identifying the selected columns of <code>X</code></td></tr>
-    </tbody></table>
-    <div class="inline-links">
-      <a href="method.html">Read the method</a>
-      <a href="simple-example.html">Run the simulation</a>
-      <a href="pima-example.html">Study the empirical application</a>
-    </div>
+    <h2>Sequential variable admission</h2>
+    <p>The candidate set is evaluated conditionally on the intercept, any always-in variables supplied through <code>Xcond</code>, and variables admitted in earlier iterations.</p>
+    <ol class="numbered-method">
+      <li><div><strong>Initial ranking</strong><p>Fit one auxiliary regression for each candidate and compute the absolute t- or z-statistic.</p></div></li>
+      <li><div><strong>Initial admission</strong><p>Admit the candidate with the largest finite statistic only when it exceeds the critical value based on <code>delta1</code>; otherwise stop with no selected candidates.</p></div></li>
+      <li><div><strong>Conditional re-estimation</strong><p>Recompute each remaining candidate statistic conditional on the variables already selected and the always-in set.</p></div></li>
+      <li><div><strong>Stopping rule</strong><p>Admit the strongest remaining candidate only when its statistic exceeds the critical value based on <code>delta2</code>; otherwise stop.</p></div></li>
+    </ol>
+    <div class="equation">\[c_p(n,\delta_s)=\Phi^{-1}\!\left(1-\frac{p}{2n^{\delta_s}}\right),\qquad s\in\{1,2\}\]</div>
+    <p>Here <em>n</em> is the number of candidates still active at the current iteration. <code>delta1</code> applies in the initial stage and <code>delta2</code> in subsequent stages. If <code>delta2</code> is omitted, it defaults to <code>delta1</code>.</p>
+    <p>The selection loop has no user-specified iteration limit. It stops when no remaining candidate crosses the applicable threshold or when no candidates remain.</p>
   </div>
 </section>
 <section class="research-section">
-  <div class="section-label">Research basis</div>
+  <div class="section-label">Function reference</div>
   <div class="section-body">
-    <h2>Boosting with multiple testing</h2>
-    <p class="lead">The implementation follows the model-selection frameworks developed for high-dimensional linear and binary-response regression.</p>
-    <p class="citation">Kapetanios, George, Vasilis Sarafidis, and Alexia Ventouri. 2026. <em>Model Selection in High-Dimensional Linear Regression using Boosting with Multiple Testing</em>. <a href="https://arxiv.org/abs/2602.19705">arXiv:2602.19705</a>.</p>
-    <p class="citation">Grivas, Charisios, George Kapetanios, Zacharias Psaradakis, Vasilis Sarafidis, Marian Vavra, and Alexia Ventouri. 2026. <em>Nonlinear Boosting with Multiple Testing in High-Dimensional Generalised Linear Models with Binary Responses</em>. <a href="https://arxiv.org/abs/2607.22440">arXiv:2607.22440</a>.</p>
-    <p>The package provides a common interface for linear, logit, and probit specifications. The local documentation separates the methodological description, reproducible simulations, and empirical use of transformed FRED-MD data.</p>
-  </div>
-</section>
-<section class="research-section">
-  <div class="section-label">Minimal use</div>
-  <div class="section-body">
-    <h2>One function, explicit inputs</h2>
-    <p>Supply a numeric response and a candidate-regressor matrix. Optional conditioning variables remain in every auxiliary regression and are not part of the returned selection vector.</p>
+    <h2><code>boosting_glm()</code></h2>
 <div class="code-block">
-  <div class="code-heading"><span>R</span><button type="button" data-copy>Copy</button></div>
-  <pre><code>library(MultipleTestingBoosting)
-
-selected &lt;- boosting_glm(
-  y = y,
-  X = X,
+  <div class="code-heading"><span>Usage</span><button type="button" data-copy>Copy</button></div>
+  <pre><code>boosting_glm(
+  y,
+  X,
   Xcond = NULL,
   pval = 0.05,
   delta1 = 1,
-  link = &quot;linear&quot;,
+  delta2 = delta1,
+  link = c(&quot;linear&quot;, &quot;logit&quot;, &quot;probit&quot;),
   HAC = FALSE
-)
-
-colnames(X)[selected]</code></pre>
+)</code></pre>
 </div>
+    <table class="argument-table"><thead><tr><th>Argument</th><th>Role</th></tr></thead><tbody>
+      <tr><th>y</th><td>Numeric response vector. Binary 0/1 values are expected for logit and probit models.</td></tr>
+      <tr><th>X</th><td>Numeric matrix whose columns are candidate regressors.</td></tr>
+      <tr><th>Xcond</th><td>Optional numeric matrix of controls that remain in every auxiliary regression.</td></tr>
+      <tr><th>pval</th><td>Probability level entering the multiple-testing critical value.</td></tr>
+      <tr><th>delta1</th><td>Critical-value exponent for the initial selection stage; the default is 1.</td></tr>
+      <tr><th>delta2</th><td>Critical-value exponent for subsequent stages; if omitted, it defaults to <code>delta1</code>.</td></tr>
+      <tr><th>link</th><td>One of <code>linear</code>, <code>logit</code>, or <code>probit</code>.</td></tr>
+      <tr><th>HAC</th><td>For linear, logit, and probit models, use Newey-West standard errors with automatic bandwidth selection when <code>TRUE</code>.</td></tr>
+    </tbody></table>
+    <div class="note"><strong>Return value.</strong> A logical vector of length <code>ncol(X)</code>. Conditioning variables in <code>Xcond</code> are not included in this vector.</div>
+  </div>
+</section>
+<section class="research-section">
+  <div class="section-label">Inference</div>
+  <div class="section-body">
+    <h2>Conventional and HAC statistics</h2>
+    <div class="two-column">
+      <div class="comparison"><h3>Default</h3><p><code>HAC = FALSE</code> uses conventional model-based coefficient standard errors.</p></div>
+      <div class="comparison"><h3>Newey-West</h3><p><code>HAC = TRUE</code> replaces those standard errors with <code>sandwich::NeweyWest()</code> and automatic bandwidth selection.</p></div>
+    </div>
+    <p>The HAC option is available for linear, logit, and probit models.</p>
   </div>
 </section>
   </main>

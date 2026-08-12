@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R implementation of sequential variable selection for linear, logit, and probit specifications, with always-in controls and optional HAC inference.">
-  <title>Overview | MultipleTestingBoosting</title>
+  <meta name="description" content="A source-oriented workflow that keeps the active R namespace, vignette, examples, and generated website aligned.">
+  <title>Implementation | MultipleTestingBoosting</title>
   <style>
 :root {
   --navy: #102a43;
@@ -165,7 +165,7 @@ html.codes-hidden .code-block { display: none; }
   <header class="site-header">
     <div class="header-inner">
       <a class="site-name" href="index.html">MultipleTestingBoosting<span>v0.0.0.9000</span></a>
-      <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
+      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a class="active" aria-current="page" href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
       <div class="header-tools" aria-label="Display settings">
         <button id="code-toggle" type="button">Hide code</button>
       </div>
@@ -174,62 +174,42 @@ html.codes-hidden .code-block { display: none; }
   </header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 05 / 06</span>Local workflow</div>
       <div>
-        <h1>Multiple Testing Boosting for high-dimensional model selection</h1>
-        <p class="deck">An R implementation of sequential variable selection for linear, logit, and probit specifications, with always-in controls and optional HAC inference.</p>
+        <h1>Install, inspect, reproduce, and verify</h1>
+        <p class="deck">A source-oriented workflow that keeps the active R namespace, vignette, examples, and generated website aligned.</p>
       </div>
     </header>
 <section class="research-section">
-  <div class="section-label">Abstract</div>
+  <div class="section-label">Installation</div>
   <div class="section-body">
-    <div class="abstract">
-      <p>MultipleTestingBoosting implements a sequential model-selection procedure for high-dimensional linear and binary-response regressions. Candidate variables are ranked through regression-based test statistics and admitted subject to a multiple-testing critical value.</p>
-    </div>
-    <table class="research-meta"><tbody>
-      <tr><th>Primary function</th><td><code>boosting_glm()</code></td></tr>
-      <tr><th>Models</th><td>Linear regression, logit, and probit</td></tr>
-      <tr><th>Always-in variables</th><td>Supported through <code>Xcond</code></td></tr>
-      <tr><th>Time-series inference</th><td>Optional Newey-West HAC standard errors for linear, logit, and probit models</td></tr>
-      <tr><th>Output</th><td>A logical vector identifying the selected columns of <code>X</code></td></tr>
-    </tbody></table>
-    <div class="inline-links">
-      <a href="method.html">Read the method</a>
-      <a href="simple-example.html">Run the simulation</a>
-      <a href="pima-example.html">Study the empirical application</a>
-    </div>
-  </div>
-</section>
-<section class="research-section">
-  <div class="section-label">Research basis</div>
-  <div class="section-body">
-    <h2>Boosting with multiple testing</h2>
-    <p class="lead">The implementation follows the model-selection frameworks developed for high-dimensional linear and binary-response regression.</p>
-    <p class="citation">Kapetanios, George, Vasilis Sarafidis, and Alexia Ventouri. 2026. <em>Model Selection in High-Dimensional Linear Regression using Boosting with Multiple Testing</em>. <a href="https://arxiv.org/abs/2602.19705">arXiv:2602.19705</a>.</p>
-    <p class="citation">Grivas, Charisios, George Kapetanios, Zacharias Psaradakis, Vasilis Sarafidis, Marian Vavra, and Alexia Ventouri. 2026. <em>Nonlinear Boosting with Multiple Testing in High-Dimensional Generalised Linear Models with Binary Responses</em>. <a href="https://arxiv.org/abs/2607.22440">arXiv:2607.22440</a>.</p>
-    <p>The package provides a common interface for linear, logit, and probit specifications. The local documentation separates the methodological description, reproducible simulations, and empirical use of transformed FRED-MD data.</p>
-  </div>
-</section>
-<section class="research-section">
-  <div class="section-label">Minimal use</div>
-  <div class="section-body">
-    <h2>One function, explicit inputs</h2>
-    <p>Supply a numeric response and a candidate-regressor matrix. Optional conditioning variables remain in every auxiliary regression and are not part of the returned selection vector.</p>
+    <h2>Install the current source</h2>
+    <p>Install from the package directory and restart the R session before rendering the vignette. Restarting prevents an older namespace from remaining attached after the source has changed.</p>
 <div class="code-block">
   <div class="code-heading"><span>R</span><button type="button" data-copy>Copy</button></div>
-  <pre><code>library(MultipleTestingBoosting)
+  <pre><code>expected &lt;- c(&quot;y&quot;, &quot;X&quot;, &quot;Xcond&quot;, &quot;pval&quot;, &quot;delta1&quot;, &quot;delta2&quot;,
+              &quot;link&quot;, &quot;HAC&quot;)
+actual &lt;- names(formals(boosting_glm))
 
-selected &lt;- boosting_glm(
-  y = y,
-  X = X,
-  Xcond = NULL,
-  pval = 0.05,
-  delta1 = 1,
-  link = &quot;linear&quot;,
-  HAC = FALSE
-)
+setdiff(expected, actual)
+# character(0)</code></pre>
+</div>
+    <p>You can also inspect the location of the active installation with <code>find.package("MultipleTestingBoosting")</code>.</p>
+  </div>
+</section>
+<section class="research-section">
+  <div class="section-label">Development</div>
+  <div class="section-body">
+    <h2>Reproducible local workflow</h2>
+<div class="code-block">
+  <div class="code-heading"><span>R</span><button type="button" data-copy>Copy</button></div>
+  <pre><code># Alternative development workflow.
+devtools::load_all()
 
-colnames(X)[selected]</code></pre>
+# Run package-level verification.
+devtools::test()
+devtools::build_vignettes()
+devtools::check(manual = FALSE)</code></pre>
 </div>
   </div>
 </section>
