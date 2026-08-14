@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.">
-  <title>Overview | SKN</title>
+  <meta name="description" content="A reproducible application using the longmemo NileMin series, a fixed seed, and the non-studentized single-bootstrap route.">
+  <title>Nile application | SKN</title>
   <style>
 :root {
   --navy: #102a43; --navy-deep: #071a2b; --blue: #1f5f99;
@@ -152,29 +152,37 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="header-inner">
     <a class="site-name" href="index.html">SKN<span>v0.2.0</span></a>
-    <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
+    <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a class="active" aria-current="page" href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
     <div class="header-tools" aria-label="Display settings"><button id="code-toggle" type="button">Hide code</button></div>
     <p class="sidebar-note">Bootstrap tests for symmetry, kurtosis, and normality under dependence.</p>
   </div></header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 04 / 06</span>Empirical application</div>
       <div>
-        <h1>Bootstrap tests for skewness, kurtosis, and normality</h1>
-        <p class="deck">An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.</p>
+        <h1>Bootstrap tests for annual minimum Nile water levels</h1>
+        <p class="deck">A reproducible application using the longmemo NileMin series, a fixed seed, and the non-studentized single-bootstrap route.</p>
       </div>
     </header>
-<section class="research-section"><div class="section-label">Abstract</div><div class="section-body"><div class="abstract"><p>SKN provides autoregressive-sieve bootstrap tests for symmetry, mesokurtosis, and moment conditions associated with normality in a stationary univariate time series. The procedures accommodate antipersistence, short memory, and long memory without requiring the memory parameter to be estimated first.</p></div><table class="research-meta"><tbody><tr><th>Primary function</th><td><code>SKNtest()</code></td></tr><tr><th>Test family</th><td>Sample skewness, robust skewness, excess kurtosis, and combined normality</td></tr><tr><th>Default route</th><td>Studentized statistic with a double bootstrap</td></tr><tr><th>Alternative route</th><td>Non-studentized statistic with a single bootstrap</td></tr><tr><th>Authors</th><td>Charisios Grivas, Zacharias Psaradakis, and Marián Vávra</td></tr></tbody></table><div class="inline-links"><a href="methods.html">Read the methods</a><a href="bootstrap.html">Compare bootstrap routes</a><a href="application.html">Nile application</a></div></div></section><section class="research-section"><div class="section-label">Minimal use</div><div class="section-body"><h2>One interface, two bootstrap routes</h2><p class="lead">The studentized route is the package default. Set <code>studentized = FALSE</code> to select the computationally lighter single-bootstrap route.</p><div class="code-block"><div class="code-heading"><span>R / studentized default</span><button type="button" data-copy>Copy</button></div><pre><code>library(SKN)
+<section class="research-section"><div class="section-label">Data</div><div class="section-body"><h2>Annual minimum Nile water levels</h2><p class="lead">The worked application uses 663 yearly minimum water-level observations from the Roda gauge near Cairo. The series is often studied in the long-memory literature, although structural breaks can generate similar persistent behaviour.</p><table class="research-meta"><tbody><tr><th>Observations</th><td>663</td></tr><tr><th>Period</th><td>622 to 1284</td></tr><tr><th>Frequency</th><td>Annual</td></tr><tr><th>Response</th><td><code>NileMin</code>, minimum Nile water level</td></tr><tr><th>Source</th><td><a href="https://cran.r-project.org/package=longmemo"><code>longmemo::NileMin</code></a>; originally compiled from Tousson (1925) and Beran (1994)</td></tr></tbody></table><div class="code-block"><div class="code-heading"><span>R / load the Nile data</span><button type="button" data-copy>Copy</button></div><pre><code>library(SKN)
 data(&quot;NileMin&quot;, package = &quot;longmemo&quot;)
-
-result &lt;- SKNtest(
+nile_levels &lt;- as.numeric(NileMin)</code></pre></div><h3>First six observations</h3><div class="table-scroll"><table class="data-table"><thead><tr><th>Year</th><th>Minimum water level</th></tr></thead><tbody><tr><td>622</td><td>1157</td></tr><tr><td>623</td><td>1088</td></tr><tr><td>624</td><td>1169</td></tr><tr><td>625</td><td>1169</td></tr><tr><td>626</td><td>984</td></tr><tr><td>627</td><td>1322</td></tr></tbody></table></div></div></section><section class="research-section"><div class="section-label">Specification</div><div class="section-body"><h2>A reproducible single-bootstrap application</h2><p>The reported result is generated from the current package source with a fixed random seed. The non-studentized route keeps the website build computationally light while exercising the public <code>SKNtest()</code> interface on real time-series data.</p><table class="argument-table"><thead><tr><th>Setting</th><th>Value</th></tr></thead><tbody><tr><th>Route</th><td>Non-studentized single bootstrap</td></tr><tr><th><code>B1</code></th><td>1000 replications</td></tr><tr><th>Criterion</th><td>AIC</td></tr><tr><th>Maximum lag</th><td><span class="math">\(\lceil (\log n)^2/2 \rceil\)</span></td></tr><tr><th>Random seed</th><td>20260813</td></tr><tr><th>Selected lag</th><td>13</td></tr></tbody></table></div></section><section class="research-section"><div class="section-label">Results</div><div class="section-body"><h2>None of the four null hypotheses is rejected</h2><div class="code-block"><div class="code-heading"><span>R / Nile application</span><button type="button" data-copy>Copy</button></div><pre><code>set.seed(20260813)
+nile_result &lt;- SKNtest(
   NileMin,
   B1 = 1000,
-  B2 = 200,
   crit = &quot;AIC&quot;,
-  studentized = TRUE
+  studentized = FALSE
 )
-result</code></pre></div><div class="note"><strong>Computation:</strong> Production bootstrap counts can be expensive. This default double-bootstrap call is shown without being run during the website build.</div></div></section><section class="research-section"><div class="section-label">Dependence</div><div class="section-body"><h2>One procedure across memory regimes</h2><p>The autoregressive sieve approximates the dependence structure with a finite-order autoregression. The same testing framework can therefore be used under antipersistence, short memory, or long memory without first selecting a memory regime.</p></div></section>
+nile_result</code></pre><div class="code-output-label">Output</div><pre class="code-output"><code>Selected lag: 13
+pS = 0.195
+pR = 0.177
+pK = 0.684
+pN = 0.352</code></pre></div><article class="result-panel"><span class="kicker">Computed result</span><h3>Bootstrap decisions at the 5% level</h3><div class="table-scroll"><table class="argument-table"><thead><tr><th>Test</th><th>p-value</th><th>Decision</th></tr></thead><tbody><tr><th>Sample skewness (pS)</th><td>0.195</td><td>Do not reject symmetry at 5%</td></tr><tr><th>Robust skewness (pR)</th><td>0.177</td><td>Do not reject symmetry at 5%</td></tr><tr><th>Kurtosis (pK)</th><td>0.684</td><td>Do not reject mesokurtosis at 5%</td></tr><tr><th>Combined normality (pN)</th><td>0.352</td><td>Do not reject the joint skewness-kurtosis conditions at 5%</td></tr></tbody></table></div><p>At the 5% level, neither symmetry test rejects symmetry, the kurtosis test does not reject mesokurtosis, and the combined test does not reject the joint skewness-kurtosis conditions associated with normality.</p><p>These non-rejections describe this application; they do not prove that the marginal distribution satisfies the corresponding conditions. Likewise, persistence in the series is not by itself evidence of long-range dependence because structural breaks may produce similar behaviour.</p></article></div></section><section class="research-section"><div class="section-label">Default route</div><div class="section-body"><h2>Run the studentized double bootstrap</h2><p>The package default uses the studentized procedure. When <code>B2</code> is omitted, the package sets <code>B2 = 100</code> and prints a message. This route is substantially more computationally demanding and is therefore shown without being run during website generation.</p><div class="code-block"><div class="code-heading"><span>R / studentized alternative</span><button type="button" data-copy>Copy</button></div><pre><code>set.seed(20260813)
+studentized_result &lt;- SKNtest(
+  NileMin,
+  B1 = 1000,
+  crit = &quot;AIC&quot;
+)</code></pre></div></div></section>
   </main>
   <footer class="site-footer"><div class="footer-inner">
     <span>Testing for Skewness, Kurtosis and Normality Under Unknown

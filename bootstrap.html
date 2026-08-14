@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.">
-  <title>Overview | SKN</title>
+  <meta name="description" content="Keep the studentized double-bootstrap default or choose a faster non-studentized single bootstrap.">
+  <title>Bootstrap choices | SKN</title>
   <style>
 :root {
   --navy: #102a43; --navy-deep: #071a2b; --blue: #1f5f99;
@@ -152,29 +152,19 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="header-inner">
     <a class="site-name" href="index.html">SKN<span>v0.2.0</span></a>
-    <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
+    <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a class="active" aria-current="page" href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
     <div class="header-tools" aria-label="Display settings"><button id="code-toggle" type="button">Hide code</button></div>
     <p class="sidebar-note">Bootstrap tests for symmetry, kurtosis, and normality under dependence.</p>
   </div></header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 03 / 06</span>Route comparison</div>
       <div>
-        <h1>Bootstrap tests for skewness, kurtosis, and normality</h1>
-        <p class="deck">An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.</p>
+        <h1>Two routes, selected by one argument</h1>
+        <p class="deck">Keep the studentized double-bootstrap default or choose a faster non-studentized single bootstrap.</p>
       </div>
     </header>
-<section class="research-section"><div class="section-label">Abstract</div><div class="section-body"><div class="abstract"><p>SKN provides autoregressive-sieve bootstrap tests for symmetry, mesokurtosis, and moment conditions associated with normality in a stationary univariate time series. The procedures accommodate antipersistence, short memory, and long memory without requiring the memory parameter to be estimated first.</p></div><table class="research-meta"><tbody><tr><th>Primary function</th><td><code>SKNtest()</code></td></tr><tr><th>Test family</th><td>Sample skewness, robust skewness, excess kurtosis, and combined normality</td></tr><tr><th>Default route</th><td>Studentized statistic with a double bootstrap</td></tr><tr><th>Alternative route</th><td>Non-studentized statistic with a single bootstrap</td></tr><tr><th>Authors</th><td>Charisios Grivas, Zacharias Psaradakis, and Marián Vávra</td></tr></tbody></table><div class="inline-links"><a href="methods.html">Read the methods</a><a href="bootstrap.html">Compare bootstrap routes</a><a href="application.html">Nile application</a></div></div></section><section class="research-section"><div class="section-label">Minimal use</div><div class="section-body"><h2>One interface, two bootstrap routes</h2><p class="lead">The studentized route is the package default. Set <code>studentized = FALSE</code> to select the computationally lighter single-bootstrap route.</p><div class="code-block"><div class="code-heading"><span>R / studentized default</span><button type="button" data-copy>Copy</button></div><pre><code>library(SKN)
-data(&quot;NileMin&quot;, package = &quot;longmemo&quot;)
-
-result &lt;- SKNtest(
-  NileMin,
-  B1 = 1000,
-  B2 = 200,
-  crit = &quot;AIC&quot;,
-  studentized = TRUE
-)
-result</code></pre></div><div class="note"><strong>Computation:</strong> Production bootstrap counts can be expensive. This default double-bootstrap call is shown without being run during the website build.</div></div></section><section class="research-section"><div class="section-label">Dependence</div><div class="section-body"><h2>One procedure across memory regimes</h2><p>The autoregressive sieve approximates the dependence structure with a finite-order autoregression. The same testing framework can therefore be used under antipersistence, short memory, or long memory without first selecting a memory regime.</p></div></section>
+<section class="research-section"><div class="section-label">Comparison</div><div class="section-body"><h2>Studentized and non-studentized choices</h2><div class="two-column"><article class="comparison"><span class="kicker">Default</span><h3>Studentized</h3><p>The observed statistic and each first-level bootstrap statistic are divided by an estimated standard deviation. Estimating those standard deviations requires a second bootstrap level.</p><p><code>studentized = TRUE</code></p></article><article class="comparison"><span class="kicker">Alternative</span><h3>Non-studentized</h3><p>The observed statistic is compared directly with first-level bootstrap statistics. No nested variance bootstrap is performed.</p><p><code>studentized = FALSE</code></p></article></div><table class="argument-table"><thead><tr><th>Feature</th><th>Studentized</th><th>Non-studentized</th></tr></thead><tbody><tr><th>Bootstrap levels</th><td>Two</td><td>One</td></tr><tr><th><code>B1</code></th><td>First-level replications</td><td>Single-bootstrap replications</td></tr><tr><th><code>B2</code></th><td>Nested variance replications; if omitted, 100 is used with a message</td><td>Not required or used</td></tr><tr><th>Lag handling</th><td>The selected <code>p</code> is retained across the corresponding outer and inner calculations</td><td>The selected <code>p</code> is retained for the single bootstrap</td></tr></tbody></table></div></section><section class="research-section"><div class="section-label">Normality</div><div class="section-body"><h2>The single-bootstrap combination</h2><p>For <code>studentized = FALSE</code>, the implementation first obtains single-bootstrap p-values for sample skewness and kurtosis, then applies the Šidák combination</p><div class="equation">\[p_N = 1 - \{1 - \min(p_S,p_K)\}^{2}.\]</div><p>The robust-skewness p-value is reported separately and is not part of this normality combination.</p></div></section><section class="research-section"><div class="section-label">Choice</div><div class="section-body"><h2>Computation and finite-sample behavior</h2><p>The non-studentized procedure avoids the nested variance bootstrap and is therefore substantially less computationally demanding. In the paper's simulations it often has comparable power, but it can exhibit greater size distortion, particularly for symmetry tests.</p><div class="note"><strong>Practical guidance:</strong> Treat simulation findings as qualitative guidance rather than a guarantee for a particular series.</div></div></section>
   </main>
   <footer class="site-footer"><div class="footer-inner">
     <span>Testing for Skewness, Kurtosis and Normality Under Unknown

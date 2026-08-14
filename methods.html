@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.">
-  <title>Overview | SKN</title>
+  <meta name="description" content="The moment conditions, autoregressive-sieve construction, and fixed-order nested bootstrap used by the package.">
+  <title>Methods | SKN</title>
   <style>
 :root {
   --navy: #102a43; --navy-deep: #071a2b; --blue: #1f5f99;
@@ -152,29 +152,19 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="header-inner">
     <a class="site-name" href="index.html">SKN<span>v0.2.0</span></a>
-    <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
+    <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a class="active" aria-current="page" href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
     <div class="header-tools" aria-label="Display settings"><button id="code-toggle" type="button">Hide code</button></div>
     <p class="sidebar-note">Bootstrap tests for symmetry, kurtosis, and normality under dependence.</p>
   </div></header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 02 / 06</span>Implementation guide</div>
       <div>
-        <h1>Bootstrap tests for skewness, kurtosis, and normality</h1>
-        <p class="deck">An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.</p>
+        <h1>Test targets and the autoregressive sieve</h1>
+        <p class="deck">The moment conditions, autoregressive-sieve construction, and fixed-order nested bootstrap used by the package.</p>
       </div>
     </header>
-<section class="research-section"><div class="section-label">Abstract</div><div class="section-body"><div class="abstract"><p>SKN provides autoregressive-sieve bootstrap tests for symmetry, mesokurtosis, and moment conditions associated with normality in a stationary univariate time series. The procedures accommodate antipersistence, short memory, and long memory without requiring the memory parameter to be estimated first.</p></div><table class="research-meta"><tbody><tr><th>Primary function</th><td><code>SKNtest()</code></td></tr><tr><th>Test family</th><td>Sample skewness, robust skewness, excess kurtosis, and combined normality</td></tr><tr><th>Default route</th><td>Studentized statistic with a double bootstrap</td></tr><tr><th>Alternative route</th><td>Non-studentized statistic with a single bootstrap</td></tr><tr><th>Authors</th><td>Charisios Grivas, Zacharias Psaradakis, and Marián Vávra</td></tr></tbody></table><div class="inline-links"><a href="methods.html">Read the methods</a><a href="bootstrap.html">Compare bootstrap routes</a><a href="application.html">Nile application</a></div></div></section><section class="research-section"><div class="section-label">Minimal use</div><div class="section-body"><h2>One interface, two bootstrap routes</h2><p class="lead">The studentized route is the package default. Set <code>studentized = FALSE</code> to select the computationally lighter single-bootstrap route.</p><div class="code-block"><div class="code-heading"><span>R / studentized default</span><button type="button" data-copy>Copy</button></div><pre><code>library(SKN)
-data(&quot;NileMin&quot;, package = &quot;longmemo&quot;)
-
-result &lt;- SKNtest(
-  NileMin,
-  B1 = 1000,
-  B2 = 200,
-  crit = &quot;AIC&quot;,
-  studentized = TRUE
-)
-result</code></pre></div><div class="note"><strong>Computation:</strong> Production bootstrap counts can be expensive. This default double-bootstrap call is shown without being run during the website build.</div></div></section><section class="research-section"><div class="section-label">Dependence</div><div class="section-body"><h2>One procedure across memory regimes</h2><p>The autoregressive sieve approximates the dependence structure with a finite-order autoregression. The same testing framework can therefore be used under antipersistence, short memory, or long memory without first selecting a memory regime.</p></div></section>
+<section class="research-section"><div class="section-label">Targets</div><div class="section-body"><h2>Four related checks</h2><ol class="numbered-method"><li><div><strong>Sample skewness</strong><p>Tests the symmetry condition <span class="math">\(\beta_1=0\)</span>.</p></div></li><li><div><strong>Robust skewness</strong><p>Reports an additional symmetry check based on the package's robust skewness measure.</p></div></li><li><div><strong>Mesokurtosis</strong><p>Tests the condition <span class="math">\(\beta_2=3\)</span>.</p></div></li><li><div><strong>Normality</strong><p>Combines the skewness and kurtosis moment conditions; satisfying these moments alone does not characterize every distribution as Gaussian.</p></div></li></ol></div></section><section class="research-section"><div class="section-label">AR sieve</div><div class="section-body"><h2>Dependence is reproduced through an autoregression</h2><p>The implementation selects an autoregressive lag order with AIC or BIC over candidate orders up to</p><div class="equation">\[p_{\max}=\left\lceil\frac{(\log n)^2}{2}\right\rceil.\]</div><p>It then fits the selected autoregressive model and generates bootstrap series recursively. Symmetry is imposed through a symmetrized residual distribution; Gaussian innovations impose the kurtosis and normality null conditions.</p><div class="equation">\[X_t = c + \sum_{j=1}^{p} \phi_j X_{t-j} + \varepsilon_t.\]</div><p>The lag order <code>p</code> is selected from the observed input series. In the studentized path, the corresponding outer and inner bootstrap calculations retain that order while re-estimating the autoregressive coefficients.</p></div></section><section class="research-section"><div class="section-label">Statistics</div><div class="section-body"><h2>Studentized moment statistics</h2><p>Let <span class="math">\(\widehat\beta_1\)</span> and <span class="math">\(\widehat\beta_2\)</span> denote sample skewness and kurtosis, with bootstrap standard errors <span class="math">\(\widehat\omega_1\)</span> and <span class="math">\(\widehat\omega_2\)</span>.</p><div class="equation">\[S_n=\frac{\widehat\beta_1}{\widehat\omega_1},\qquad K_n=\frac{\widehat\beta_2-3}{\widehat\omega_2},\qquad G_n=S_n^2+K_n^2.\]</div><p>Large absolute skewness or kurtosis statistics, and large values of the joint statistic, provide evidence against the relevant null.</p></div></section>
   </main>
   <footer class="site-footer"><div class="footer-inner">
     <span>Testing for Skewness, Kurtosis and Normality Under Unknown

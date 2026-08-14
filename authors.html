@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.">
-  <title>Overview | SKN</title>
+  <meta name="description" content="Authorship information and citation records for the method and its R implementation.">
+  <title>Authors &amp; citation | SKN</title>
   <style>
 :root {
   --navy: #102a43; --navy-deep: #071a2b; --blue: #1f5f99;
@@ -152,29 +152,34 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="header-inner">
     <a class="site-name" href="index.html">SKN<span>v0.2.0</span></a>
-    <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
+    <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a class="active" aria-current="page" href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
     <div class="header-tools" aria-label="Display settings"><button id="code-toggle" type="button">Hide code</button></div>
     <p class="sidebar-note">Bootstrap tests for symmetry, kurtosis, and normality under dependence.</p>
   </div></header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 06 / 06</span>Authors and citation</div>
       <div>
-        <h1>Bootstrap tests for skewness, kurtosis, and normality</h1>
-        <p class="deck">An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.</p>
+        <h1>Package authors and methodological reference</h1>
+        <p class="deck">Authorship information and citation records for the method and its R implementation.</p>
       </div>
     </header>
-<section class="research-section"><div class="section-label">Abstract</div><div class="section-body"><div class="abstract"><p>SKN provides autoregressive-sieve bootstrap tests for symmetry, mesokurtosis, and moment conditions associated with normality in a stationary univariate time series. The procedures accommodate antipersistence, short memory, and long memory without requiring the memory parameter to be estimated first.</p></div><table class="research-meta"><tbody><tr><th>Primary function</th><td><code>SKNtest()</code></td></tr><tr><th>Test family</th><td>Sample skewness, robust skewness, excess kurtosis, and combined normality</td></tr><tr><th>Default route</th><td>Studentized statistic with a double bootstrap</td></tr><tr><th>Alternative route</th><td>Non-studentized statistic with a single bootstrap</td></tr><tr><th>Authors</th><td>Charisios Grivas, Zacharias Psaradakis, and Marián Vávra</td></tr></tbody></table><div class="inline-links"><a href="methods.html">Read the methods</a><a href="bootstrap.html">Compare bootstrap routes</a><a href="application.html">Nile application</a></div></div></section><section class="research-section"><div class="section-label">Minimal use</div><div class="section-body"><h2>One interface, two bootstrap routes</h2><p class="lead">The studentized route is the package default. Set <code>studentized = FALSE</code> to select the computationally lighter single-bootstrap route.</p><div class="code-block"><div class="code-heading"><span>R / studentized default</span><button type="button" data-copy>Copy</button></div><pre><code>library(SKN)
-data(&quot;NileMin&quot;, package = &quot;longmemo&quot;)
-
-result &lt;- SKNtest(
-  NileMin,
-  B1 = 1000,
-  B2 = 200,
-  crit = &quot;AIC&quot;,
-  studentized = TRUE
-)
-result</code></pre></div><div class="note"><strong>Computation:</strong> Production bootstrap counts can be expensive. This default double-bootstrap call is shown without being run during the website build.</div></div></section><section class="research-section"><div class="section-label">Dependence</div><div class="section-body"><h2>One procedure across memory regimes</h2><p>The autoregressive sieve approximates the dependence structure with a finite-order autoregression. The same testing framework can therefore be used under antipersistence, short memory, or long memory without first selecting a memory regime.</p></div></section>
+<section class="research-section"><div class="section-label">Authors</div><div class="section-body"><h2>Package authors</h2><table class="research-meta"><tbody><tr><th>Charisios Grivas</th><td>Author and maintainer</td></tr><tr><th>Zacharias Psaradakis</th><td>Author</td></tr><tr><th>Marián Vávra</th><td>Author</td></tr></tbody></table></div></section><section class="research-section"><div class="section-label">Methodological paper</div><div class="section-body"><h2>Bootstrap-assisted testing under unknown memory</h2><p class="citation">Grivas, Charisios, Zacharias Psaradakis, and Marián Vávra. 2026. <em>Bootstrap-Assisted Tests for Skewness, Kurtosis and Normality Under Unspecified Short or Long Memory</em>. Manuscript, June 25, 2026.</p><div class="code-block"><div class="code-heading"><span>BibTeX / manuscript</span><button type="button" data-copy>Copy</button></div><pre><code>@Unpublished{grivas2026bootstrap,
+  title  = {Bootstrap-Assisted Tests for Skewness, Kurtosis and
+            Normality Under Unspecified Short or Long Memory},
+  author = {Charisios Grivas and Zacharias Psaradakis and
+            Marián Vávra},
+  year   = {2026},
+  note   = {Manuscript dated June 25, 2026}
+}</code></pre></div></div></section><section class="research-section"><div class="section-label">Citation</div><div class="section-body"><h2>Cite the software and methodological paper</h2><p>The installed citation record returns separate entries for the SKN package and the manuscript:</p><div class="code-block"><div class="code-heading"><span>R / citation</span><button type="button" data-copy>Copy</button></div><pre><code>citation(&quot;SKN&quot;)</code></pre></div><div class="code-block"><div class="code-heading"><span>BibTeX / package</span><button type="button" data-copy>Copy</button></div><pre><code>@Manual{SKN,
+  title  = {SKN: Testing for Skewness, Kurtosis and Normality
+            Under Unknown Dependence},
+  author = {Charisios Grivas and Zacharias Psaradakis and
+            Marián Vávra},
+  year   = {2026},
+  note   = {R package version 0.2.0},
+  url    = {https://github.com/chargrivas/SKN}
+}</code></pre></div></div></section>
   </main>
   <footer class="site-footer"><div class="footer-inner">
     <span>Testing for Skewness, Kurtosis and Normality Under Unknown

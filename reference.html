@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.">
-  <title>Overview | SKN</title>
+  <meta name="description" content="A compact index of every exported function, together with arguments and output for the main SKNtest interface.">
+  <title>Function reference | SKN</title>
   <style>
 :root {
   --navy: #102a43; --navy-deep: #071a2b; --blue: #1f5f99;
@@ -152,29 +152,19 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="header-inner">
     <a class="site-name" href="index.html">SKN<span>v0.2.0</span></a>
-    <nav class="site-nav" aria-label="Primary"><a class="active" aria-current="page" href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
+    <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="methods.html"><span>02</span>Methods</a><a href="bootstrap.html"><span>03</span>Bootstrap choices</a><a href="application.html"><span>04</span>Nile application</a><a class="active" aria-current="page" href="reference.html"><span>05</span>Function reference</a><a href="authors.html"><span>06</span>Authors &amp; citation</a></nav>
     <div class="header-tools" aria-label="Display settings"><button id="code-toggle" type="button">Hide code</button></div>
     <p class="sidebar-note">Bootstrap tests for symmetry, kurtosis, and normality under dependence.</p>
   </div></header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 01 / 06</span>Research software</div>
+      <div class="page-label"><span>DOC 05 / 06</span>Interface map</div>
       <div>
-        <h1>Bootstrap tests for skewness, kurtosis, and normality</h1>
-        <p class="deck">An R package for studentized double-bootstrap and non-studentized single-bootstrap inference under unspecified short or long memory.</p>
+        <h1>Public functions and the combined interface</h1>
+        <p class="deck">A compact index of every exported function, together with arguments and output for the main SKNtest interface.</p>
       </div>
     </header>
-<section class="research-section"><div class="section-label">Abstract</div><div class="section-body"><div class="abstract"><p>SKN provides autoregressive-sieve bootstrap tests for symmetry, mesokurtosis, and moment conditions associated with normality in a stationary univariate time series. The procedures accommodate antipersistence, short memory, and long memory without requiring the memory parameter to be estimated first.</p></div><table class="research-meta"><tbody><tr><th>Primary function</th><td><code>SKNtest()</code></td></tr><tr><th>Test family</th><td>Sample skewness, robust skewness, excess kurtosis, and combined normality</td></tr><tr><th>Default route</th><td>Studentized statistic with a double bootstrap</td></tr><tr><th>Alternative route</th><td>Non-studentized statistic with a single bootstrap</td></tr><tr><th>Authors</th><td>Charisios Grivas, Zacharias Psaradakis, and Marián Vávra</td></tr></tbody></table><div class="inline-links"><a href="methods.html">Read the methods</a><a href="bootstrap.html">Compare bootstrap routes</a><a href="application.html">Nile application</a></div></div></section><section class="research-section"><div class="section-label">Minimal use</div><div class="section-body"><h2>One interface, two bootstrap routes</h2><p class="lead">The studentized route is the package default. Set <code>studentized = FALSE</code> to select the computationally lighter single-bootstrap route.</p><div class="code-block"><div class="code-heading"><span>R / studentized default</span><button type="button" data-copy>Copy</button></div><pre><code>library(SKN)
-data(&quot;NileMin&quot;, package = &quot;longmemo&quot;)
-
-result &lt;- SKNtest(
-  NileMin,
-  B1 = 1000,
-  B2 = 200,
-  crit = &quot;AIC&quot;,
-  studentized = TRUE
-)
-result</code></pre></div><div class="note"><strong>Computation:</strong> Production bootstrap counts can be expensive. This default double-bootstrap call is shown without being run during the website build.</div></div></section><section class="research-section"><div class="section-label">Dependence</div><div class="section-body"><h2>One procedure across memory regimes</h2><p>The autoregressive sieve approximates the dependence structure with a finite-order autoregression. The same testing framework can therefore be used under antipersistence, short memory, or long memory without first selecting a memory regime.</p></div></section>
+<section class="research-section"><div class="section-label">Function index</div><div class="section-body"><h2>Public functions</h2><p>The package exports ten functions. <code>SKNtest()</code> is the main interface; the remaining functions are available for individual tests or lower-level work.</p><div class="table-scroll"><table class="argument-table"><thead><tr><th>Function</th><th>Purpose</th></tr></thead><tbody><tr data-function="SKNtest"><th><code>SKNtest()</code></th><td>Run all symmetry, kurtosis, and normality tests.</td></tr><tr data-function="BTSPskewness"><th><code>BTSPskewness()</code></th><td>Test symmetry using conventional sample skewness.</td></tr><tr data-function="BTSPskewness2"><th><code>BTSPskewness2()</code></th><td>Test symmetry using the robust skewness statistic.</td></tr><tr data-function="BTSPkurtosis"><th><code>BTSPkurtosis()</code></th><td>Test the kurtosis condition.</td></tr><tr data-function="BTSPnormality"><th><code>BTSPnormality()</code></th><td>Test the joint skewness-kurtosis conditions associated with normality.</td></tr><tr data-function="arsieve"><th><code>arsieve()</code></th><td>Generate autoregressive-sieve bootstrap samples.</td></tr><tr data-function="autolag"><th><code>autolag()</code></th><td>Select an autoregressive lag order using AIC or BIC.</td></tr><tr data-function="check_missing_insample_values"><th><code>check_missing_insample_values()</code></th><td>Detect and remove missing observations.</td></tr><tr data-function="mlag"><th><code>mlag()</code></th><td>Construct a matrix of lagged observations.</td></tr><tr data-function="skewness2"><th><code>skewness2()</code></th><td>Calculate the robust skewness statistic.</td></tr></tbody></table></div></div></section><section class="research-section"><div class="section-label">Combined test</div><div class="section-body"><h2><code>SKNtest()</code></h2><div class="code-block"><div class="code-heading"><span>R / usage</span><button type="button" data-copy>Copy</button></div><pre><code>SKNtest(y, B1 = 1000, B2 = NULL, crit = &quot;AIC&quot;, studentized = TRUE)</code></pre></div><div class="table-scroll"><table class="argument-table"><thead><tr><th>Argument</th><th>Meaning</th></tr></thead><tbody><tr><th><code>y</code></th><td>Numeric univariate time-series observations.</td></tr><tr><th><code>B1</code></th><td>First-level bootstrap replications; default 1000.</td></tr><tr><th><code>B2</code></th><td>Optional second-level replications for studentization. If omitted, 100 is used with a message. It is not required or used for non-studentized tests.</td></tr><tr><th><code>crit</code></th><td>Lag-selection criterion: <code>"AIC"</code> or <code>"BIC"</code>.</td></tr><tr><th><code>studentized</code></th><td><code>TRUE</code> for the double-bootstrap default; <code>FALSE</code> for a single bootstrap.</td></tr></tbody></table></div><p><strong>Returns:</strong> An object of class <code>SKNtest</code> recording the sample size, bootstrap settings, selected lag order, criterion, route, and four p-values. Printing this object automatically uses the registered <code>print.SKNtest()</code> method.</p></div></section><section class="research-section"><div class="section-label">Data</div><div class="section-body"><h2>Example series</h2><p>All website examples use <a href="application.html"><code>NileMin</code></a> from the suggested <code>longmemo</code> package.</p></div></section>
   </main>
   <footer class="site-footer"><div class="footer-inner">
     <span>Testing for Skewness, Kurtosis and Normality Under Unknown
