@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A source-oriented workflow that keeps the active R namespace, vignette, examples, and generated website aligned.">
-  <title>Implementation | MultipleTestingBoosting</title>
+  <title>Implementation | Boosting Multiple Testing</title>
   <style>
 :root {
   --navy: #102a43;
@@ -164,8 +164,8 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="site-name" href="index.html">MultipleTestingBoosting<span>v0.0.0.9000</span></a>
-      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a class="active" aria-current="page" href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
+      <a class="site-name" href="index.html">Boosting Multiple Testing<span>v0.0.0.9000</span></a>
+      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a href="simple-example.html"><span>03</span>Artificial Example</a><a href="pima-example.html"><span>04</span>Empirical example</a><a class="active" aria-current="page" href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
       <div class="header-tools" aria-label="Display settings">
         <button id="code-toggle" type="button">Hide code</button>
       </div>
@@ -194,7 +194,7 @@ actual &lt;- names(formals(boosting_glm))
 setdiff(expected, actual)
 # character(0)</code></pre>
 </div>
-    <p>You can also inspect the location of the active installation with <code>find.package("MultipleTestingBoosting")</code>.</p>
+    <p>You can also inspect the location of the active installation with <code>find.package("BoostingMultipleTesting")</code>.</p>
   </div>
 </section>
 <section class="research-section">
@@ -216,7 +216,7 @@ devtools::check(manual = FALSE)</code></pre>
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>Multiple Testing Boosting for High-Dimensional Model Selection</span>
+      <span>Boosting Multiple Testing for High-Dimensional Model Selection</span>
       <span>Research software documentation generated from the package source.</span>
     </div>
   </footer>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A fixed-seed logit design in which the true support is known before the selection procedure is run.">
-  <title>Simulation | MultipleTestingBoosting</title>
+  <title>Artificial Example | Boosting Multiple Testing</title>
   <style>
 :root {
   --navy: #102a43;
@@ -164,8 +164,8 @@ html.codes-hidden .code-block { display: none; }
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="site-name" href="index.html">MultipleTestingBoosting<span>v0.0.0.9000</span></a>
-      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a class="active" aria-current="page" href="simple-example.html"><span>03</span>Simulation</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
+      <a class="site-name" href="index.html">Boosting Multiple Testing<span>v0.0.0.9000</span></a>
+      <nav class="site-nav" aria-label="Primary"><a href="index.html"><span>01</span>Overview</a><a href="method.html"><span>02</span>Method</a><a class="active" aria-current="page" href="simple-example.html"><span>03</span>Artificial Example</a><a href="pima-example.html"><span>04</span>Empirical example</a><a href="implementation.html"><span>05</span>Implementation</a><a href="author.html"><span>06</span>Author & citation</a></nav>
       <div class="header-tools" aria-label="Display settings">
         <button id="code-toggle" type="button">Hide code</button>
       </div>
@@ -174,7 +174,7 @@ html.codes-hidden .code-block { display: none; }
   </header>
   <main id="main-content" class="document">
     <header class="page-header">
-      <div class="page-label"><span>DOC 03 / 06</span>Reproducible example</div>
+      <div class="page-label"><span>DOC 03 / 06</span>Artificial Example</div>
       <div>
         <h1>Binary-response simulation with known support</h1>
         <p class="deck">A fixed-seed logit design in which the true support is known before the selection procedure is run.</p>
@@ -201,7 +201,7 @@ html.codes-hidden .code-block { display: none; }
     <h2>Selection code and result</h2>
 <div class="code-block">
   <div class="code-heading"><span>R simulation</span><button type="button" data-copy>Copy</button></div>
-  <pre><code>library(MultipleTestingBoosting)
+  <pre><code>library(BoostingMultipleTesting)
 
 set.seed(123)
 n_obs &lt;- 250
@@ -259,7 +259,7 @@ coef(summary(final_model))</code></pre>
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>Multiple Testing Boosting for High-Dimensional Model Selection</span>
+      <span>Boosting Multiple Testing for High-Dimensional Model Selection</span>
       <span>Research software documentation generated from the package source.</span>
     </div>
   </footer>
